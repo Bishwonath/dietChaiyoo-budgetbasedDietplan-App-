@@ -10,18 +10,30 @@ class SignUpView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: 
+
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Email Text Field
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+               ElevatedButton.icon(
+              onPressed: () {
+                // Handle Google Sign-Up logic here
+                print('Google Sign-Up button pressed');
+              },
+              icon: Icon(Icons.account_circle),
+              label: Text('Sign Up with Facebook'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 86, 54, 244),
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                
               ),
+              
             ),
-            SizedBox(height: 20),
+            // Email Text Field
+             SizedBox(height: 16),
+            
 
             // Google Sign-Up Button
             ElevatedButton.icon(
@@ -33,6 +45,27 @@ class SignUpView extends StatelessWidget {
               label: Text('Sign Up with Google'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 16),
+              ),
+            ),
+             SizedBox(height: 16),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+             ElevatedButton.icon(
+              onPressed: () {
+                // Handle Google Sign-Up logic here
+                print('Google Sign-Up button pressed');
+              },
+              icon: Icon(Icons.account_circle),
+              label: Text('Login'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 229, 218, 218),
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 16),
               ),
