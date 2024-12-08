@@ -49,10 +49,17 @@ class SignUpView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 16),
               ),
             ),
-             SizedBox(height: 16),
+             SizedBox(height: 100),
             TextField(
               decoration: InputDecoration(
                 labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20),
+              TextField(
+              decoration: InputDecoration(
+                labelText: 'password',
                 border: OutlineInputBorder(),
               ),
             ),
