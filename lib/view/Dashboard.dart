@@ -1,7 +1,8 @@
+import 'package:diet_chaiyoo/view/Sigup_view.dart';
 import 'package:flutter/material.dart';
 
-class PersonalisationSetup extends StatelessWidget {
-  const PersonalisationSetup({Key? key}) : super(key: key);
+class Dashboard extends StatelessWidget {
+  const Dashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +22,9 @@ class PersonalisationSetup extends StatelessWidget {
             height: screenHeight * (2 / 3), // 2:3 of the screen height
             width: double.infinity, // Full width
             decoration: BoxDecoration(
-              color: Colors.grey[300], // Placeholder background color
+              color: const Color.fromARGB(255, 255, 255, 255), // Placeholder background color
               image: const DecorationImage(
-                image: AssetImage('assets/images/slighly thin.png'), // Replace with your image path
+                image: AssetImage('assets/images/diet cahiyoo logo.png'), // Replace with your image path
                 fit: BoxFit.cover, // Ensure the image covers the container
               ),
             ),
@@ -35,16 +36,14 @@ class PersonalisationSetup extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  print('Button 1 Pressed');
+                   Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpView()),
+    );
                 },
-                child: const Text('Back'),
+                child: const Text('Logout'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  print('Button 2 Pressed');
-                },
-                child: const Text('Continue'),
-              ),
+            
             ],
           ),
           const SizedBox(height: 20), // Add some space below the buttons

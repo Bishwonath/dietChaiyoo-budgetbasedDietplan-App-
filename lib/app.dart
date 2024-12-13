@@ -1,4 +1,5 @@
-import 'package:diet_chaiyoo/view/Personalisation_Setup_view.dart';
+import 'package:diet_chaiyoo/view/Budget_Setup.dart';
+import 'package:diet_chaiyoo/view/Dashboard.dart';
 import 'package:diet_chaiyoo/view/User_setup_view.dart';
 import 'package:diet_chaiyoo/view/select_package.dart';
 import 'package:diet_chaiyoo/view/user_age_setup.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SelectPackages(), // Set SignUpView as the home screen
+      home: SignUpView(), // Set SignUpView as the home screen
     );
   }
 }
