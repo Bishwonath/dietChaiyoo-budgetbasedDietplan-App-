@@ -1,10 +1,11 @@
-import 'package:diet_chaiyoo/view/Budget_Setup.dart';
-import 'package:diet_chaiyoo/view/Dashboard.dart';
-import 'package:diet_chaiyoo/view/User_setup_view.dart';
-import 'package:diet_chaiyoo/view/select_package.dart';
-import 'package:diet_chaiyoo/view/user_age_setup.dart';
+import 'package:diet_chaiyoo/view/Budget_Setup_View.dart';
+import 'package:diet_chaiyoo/view/Dashboard_View.dart';
+import 'package:diet_chaiyoo/view/OnBoarding_View.dart';
+import 'package:diet_chaiyoo/view/User_Setup_View.dart';
+import 'package:diet_chaiyoo/view/Select_Packages_View.dart';
+import 'package:diet_chaiyoo/view/User_Agesetup_View.dart';
 import 'package:flutter/material.dart';
-import 'package:diet_chaiyoo/view/Sigup_view.dart'; // Import SignUpView
+import 'package:diet_chaiyoo/view/Sigup_View.dart'; // Import SignUpView
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SignUpView(), // Set SignUpView as the home screen
+      home: OnboardingPage(), // Set SignUpView as the home screen
     );
   }
 }

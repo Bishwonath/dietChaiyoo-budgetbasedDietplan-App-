@@ -1,15 +1,17 @@
-import 'package:diet_chaiyoo/view/select_package.dart';
-import 'package:diet_chaiyoo/view/user_age_setup.dart';
+import 'package:diet_chaiyoo/view/Budget_Setup_View.dart';
+import 'package:diet_chaiyoo/view/Sigup_View.dart';
+import 'package:diet_chaiyoo/view/Select_Packages_View.dart';
+import 'package:diet_chaiyoo/view/User_Agesetup_View.dart';
 import 'package:flutter/material.dart';
 
-class BudgetSetup extends StatefulWidget {
-  const BudgetSetup({super.key});
+class SelectPackages extends StatefulWidget {
+  const SelectPackages({super.key});
 
   @override
-  State<BudgetSetup> createState() => _BudgetSetupState();
+  State<SelectPackages> createState() => _SelectPackagesState();
 }
 
-class _BudgetSetupState extends State<BudgetSetup> {
+class _SelectPackagesState extends State<SelectPackages> {
   bool first = false, second = false, third = false, randombutton = false;
 
   @override
@@ -25,7 +27,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
                 // Navigate back to SelectPackages screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SelectPackages()),
+                  MaterialPageRoute(builder: (context) => SignUpView()),
                 );
               },
               child: Icon(
@@ -37,7 +39,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
             ),
             SizedBox(height: 30.0),
             Text(
-              "Choose Your Daily \nBudget",
+              "Choose Your Goal",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 30.0,
@@ -46,8 +48,8 @@ class _BudgetSetupState extends State<BudgetSetup> {
             ),
             SizedBox(height: 40.0),
             first
-                ? _buildSelectedOption("₹ Five Hundred")
-                : _buildUnselectedOption("₹ Five Hundred", () {
+                ? _buildSelectedOption("Gain Weight")
+                : _buildUnselectedOption("Gain Weight", () {
                     setState(() {
                       first = true;
                       second = false;
@@ -57,8 +59,8 @@ class _BudgetSetupState extends State<BudgetSetup> {
                   }),
             SizedBox(height: 20.0),
             second
-                ? _buildSelectedOption("₹ Seven Hundred")
-                : _buildUnselectedOption("₹ Seven Hundred", () {
+                ? _buildSelectedOption("lose Weight")
+                : _buildUnselectedOption("lose Weight", () {
                     setState(() {
                       first = false;
                       second = true;
@@ -68,8 +70,8 @@ class _BudgetSetupState extends State<BudgetSetup> {
                   }),
             SizedBox(height: 20.0),
             third
-                ? _buildSelectedOption("₹ Thousand +")
-                : _buildUnselectedOption("₹ Thousand +", () {
+                ? _buildSelectedOption("Stay healthy")
+                : _buildUnselectedOption("Stay healthy", () {
                     setState(() {
                       first = false;
                       second = false;
@@ -84,7 +86,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
                       // Navigate to UserAgeSetup screen
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => UserAgeSetup()),
+                        MaterialPageRoute(builder: (context) => BudgetSetup()),
                       );
                     }
                   : null, // Button remains disabled if randombutton is false
@@ -93,7 +95,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: randombutton
-                      ? const Color.fromARGB(255, 236, 141, 25)
+                      ? const Color.fromARGB(255, 21, 104, 11)
                       : const Color(0xffeaebef),
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -122,7 +124,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xfff5485a), width: 2.0),
+        border: Border.all(color: Color.fromARGB(255, 21, 104, 11), width: 2.0),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Center(

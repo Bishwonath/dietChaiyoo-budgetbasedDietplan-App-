@@ -1,4 +1,4 @@
-import 'package:diet_chaiyoo/view/select_package.dart';
+import 'package:diet_chaiyoo/view/Select_Packages_View.dart';
 import 'package:flutter/material.dart';
 
 class SignUpView extends StatelessWidget {
