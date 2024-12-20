@@ -1,4 +1,4 @@
-import 'package:diet_chaiyoo/view/Select_Packages_View.dart';
+import 'package:diet_chaiyoo/view/Sigup_View.dart';
 import 'package:diet_chaiyoo/view/User_Agesetup_View.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +16,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(
-            top: 50.0, left: 20.0, right: 20.0, bottom: 40.0),
+        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,8 +24,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const SelectPackages()),
+                  MaterialPageRoute(builder: (context) => const SignUpView()),
                 );
               },
               child: Icon(
@@ -37,43 +35,54 @@ class _BudgetSetupState extends State<BudgetSetup> {
             ),
             const SizedBox(height: 30.0),
             Text(
-              "Tell us your budget plan",
+              "Choose Your Goal",
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            const SizedBox(height: 40.0),
-            first
-                ? _buildSelectedOption("Rs .1000")
-                : _buildUnselectedOption("Rs .1000", () {
-                    setState(() {
-                      first = true;
-                      second = false;
-                      third = false;
-                      randombutton = true;
-                    });
-                  }),
             const SizedBox(height: 20.0),
-            second
-                ? _buildSelectedOption("Rs .700")
-                : _buildUnselectedOption("Rs .700", () {
-                    setState(() {
-                      first = false;
-                      second = true;
-                      third = false;
-                      randombutton = true;
-                    });
-                  }),
-            const SizedBox(height: 20.0),
-            third
-                ? _buildSelectedOption("Rs .500")
-                : _buildUnselectedOption("Rs .500", () {
-                    setState(() {
-                      first = false;
-                      second = false;
-                      third = true;
-                      randombutton = true;
-                    });
-                  }),
-            const Spacer(),
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildImageCard(
+                    imageUrl: 'assets/images/Rs. 500.png',
+                    isSelected: first,
+                    onTap: () {
+                      setState(() {
+                        first = true;
+                        second = false;
+                        third = false;
+                        randombutton = true;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  _buildImageCard(
+                    imageUrl: 'assets/images/Rs. 700.png',
+                    isSelected: second,
+                    onTap: () {
+                      setState(() {
+                        first = false;
+                        second = true;
+                        third = false;
+                        randombutton = true;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  _buildImageCard(
+                    imageUrl: 'assets/images/Rs.1000.png',
+                    isSelected: third,
+                    onTap: () {
+                      setState(() {
+                        first = false;
+                        second = false;
+                        third = true;
+                        randombutton = true;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
             GestureDetector(
               onTap: randombutton
                   ? () {
@@ -85,7 +94,7 @@ class _BudgetSetupState extends State<BudgetSetup> {
                     }
                   : null,
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 7.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: randombutton
@@ -104,50 +113,37 @@ class _BudgetSetupState extends State<BudgetSetup> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSelectedOption(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-          width: 2.0,
-        ),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUnselectedOption(String text, VoidCallback onTap) {
+  Widget _buildImageCard({
+    required String imageUrl,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 6,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Theme.of(context).dividerColor,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             width: 2.0,
           ),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Center(
-          child: Text(
-            text,
-            style: Theme.of(context).textTheme.bodyMedium,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            imageUrl,
+            fit: BoxFit.contain,
           ),
         ),
       ),

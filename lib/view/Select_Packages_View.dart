@@ -16,8 +16,7 @@ class _SelectPackagesState extends State<SelectPackages> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(
-            top: 50.0, left: 20.0, right: 20.0, bottom: 40.0),
+        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,7 +24,7 @@ class _SelectPackagesState extends State<SelectPackages> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignUpView()),
+                  MaterialPageRoute(builder: (context) => const SignUpView()),
                 );
               },
               child: Icon(
@@ -39,40 +38,51 @@ class _SelectPackagesState extends State<SelectPackages> {
               "Choose Your Goal",
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            const SizedBox(height: 40.0),
-            first
-                ? _buildSelectedOption("Gain Weight")
-                : _buildUnselectedOption("Gain Weight", () {
-                    setState(() {
-                      first = true;
-                      second = false;
-                      third = false;
-                      randombutton = true;
-                    });
-                  }),
             const SizedBox(height: 20.0),
-            second
-                ? _buildSelectedOption("Lose Weight")
-                : _buildUnselectedOption("Lose Weight", () {
-                    setState(() {
-                      first = false;
-                      second = true;
-                      third = false;
-                      randombutton = true;
-                    });
-                  }),
-            const SizedBox(height: 20.0),
-            third
-                ? _buildSelectedOption("Stay Healthy")
-                : _buildUnselectedOption("Stay Healthy", () {
-                    setState(() {
-                      first = false;
-                      second = false;
-                      third = true;
-                      randombutton = true;
-                    });
-                  }),
-            const Spacer(),
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildImageCard(
+                    imageUrl: 'assets/images/gainweight.png',
+                    isSelected: first,
+                    onTap: () {
+                      setState(() {
+                        first = true;
+                        second = false;
+                        third = false;
+                        randombutton = true;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  _buildImageCard(
+                    imageUrl: 'assets/images/loseweight.png',
+                    isSelected: second,
+                    onTap: () {
+                      setState(() {
+                        first = false;
+                        second = true;
+                        third = false;
+                        randombutton = true;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  _buildImageCard(
+                    imageUrl: 'assets/images/stayhealthy.png',
+                    isSelected: third,
+                    onTap: () {
+                      setState(() {
+                        first = false;
+                        second = false;
+                        third = true;
+                        randombutton = true;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
             GestureDetector(
               onTap: randombutton
                   ? () {
@@ -84,7 +94,7 @@ class _SelectPackagesState extends State<SelectPackages> {
                     }
                   : null,
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 7.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: randombutton
@@ -103,50 +113,37 @@ class _SelectPackagesState extends State<SelectPackages> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSelectedOption(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary,
-          width: 2.0,
-        ),
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUnselectedOption(String text, VoidCallback onTap) {
+  Widget _buildImageCard({
+    required String imageUrl,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 6,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Theme.of(context).dividerColor,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             width: 2.0,
           ),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Center(
-          child: Text(
-            text,
-            style: Theme.of(context).textTheme.bodyMedium,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.asset(
+            imageUrl,
+            fit: BoxFit.contain,
           ),
         ),
       ),
