@@ -1,132 +1,232 @@
 import 'package:diet_chaiyoo/view/Select_Packages_View.dart';
 import 'package:flutter/material.dart';
 
-class SignUpView extends StatelessWidget {
-  SignUpView({super.key});
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
 
-  // Text editing controllers
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  @override
+  _SignUpViewState createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  bool rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Theme.of(context)
-          .scaffoldBackgroundColor, // Use global background color
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 30),
-
-                  // Logo
-                  Icon(
-                    Icons.lock,
-                    size: 80,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary, // Use primary color
+      backgroundColor:
+          theme.scaffoldBackgroundColor, // Use global background color
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 23.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Welcome Back!",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFE07B39), // Primary color from theme
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Username text field
-                  MyTextField(
-                    controller: usernameController,
-                    hintText: 'Username',
-                    obscureText: false,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Log in and get yourself the best diet",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: theme.textTheme.bodyLarge?.color
+                        ?.withOpacity(0.6), // Muted text color from theme
                   ),
-
-                  const SizedBox(height: 15),
-
-                  // Password text field
-                  MyTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // Sign in button
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SelectPackages(),
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      textStyle:
-                          Theme.of(context).textTheme.labelLarge?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary, // Set a contrasting color for text
+                        const SizedBox(height: 16),
+                        TextField(
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            hintText: "Enter your email",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelStyle: TextStyle(
+                              fontSize: 20,
+                              color: theme
+                                  .primaryColor, // Primary color from theme for labels
+                            ),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 16),
+                        TextField(
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            hintText: "Enter your password",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelStyle: TextStyle(
+                              fontSize: 20,
+                              color: theme
+                                  .primaryColor, // Primary color from theme for labels
+                            ),
+                          ),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: rememberMe,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      rememberMe = value ?? false;
+                                    });
+                                  },
+                                ),
+                                const Text("Remember Me"),
+                              ],
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // Navigate to password recovery page
+                              },
+                              child: Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  color: theme
+                                      .primaryColor, // Primary color from theme
+                                  fontSize: 12,
+                                ),
                               ),
-                      backgroundColor: Theme.of(context)
-                          .colorScheme
-                          .primary, // Primary color for button
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SelectPackages(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                theme.primaryColor, // Primary color from theme
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            child: Text(
+                              "Login",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  "Don't have an account?",
+                  style: TextStyle(
+                      color: theme.textTheme.bodyLarge?.color
+                          ?.withOpacity(0.6)), // Muted text color from theme
+                ),
+                const SizedBox(height: 8),
+                OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                        color: theme
+                            .primaryColor), // Primary color from theme for border
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          color: Color(
+                              0xFFE07B39)), // Primary color from theme for text
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Divider(thickness: 1),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "Or continue with",
+                        style: TextStyle(
+                            color: theme.textTheme.bodyLarge?.color
+                                ?.withOpacity(
+                                    0.6)), // Muted text color from theme
                       ),
                     ),
-                    child: const Text("Sign In"),
-                  ),
-                ],
-              ),
+                    const Expanded(
+                      child: Divider(thickness: 1),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        // Facebook login action
+                      },
+                      icon: const Icon(Icons.facebook, color: Colors.blue),
+                      iconSize: 32,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // Apple login action
+                      },
+                      icon: const Icon(Icons.apple, color: Colors.black),
+                      iconSize: 32,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class MyTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  final bool obscureText;
-
-  const MyTextField({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.obscureText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color:
-                  Theme.of(context).colorScheme.surface), // Use surface color
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color:
-                  Theme.of(context).colorScheme.primary), // Use primary color
-        ),
-        fillColor: Theme.of(context).colorScheme.surface, // Use surface color
-        filled: true,
-        hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface, // Use onSurface color
-            ),
       ),
     );
   }

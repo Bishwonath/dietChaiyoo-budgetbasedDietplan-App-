@@ -14,12 +14,10 @@ class _BudgetSetupState extends State<BudgetSetup> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
+        margin: const EdgeInsets.only(
+            top: 50.0, left: 20.0, right: 20.0, bottom: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,21 +32,18 @@ class _BudgetSetupState extends State<BudgetSetup> {
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 30.0,
-                color: theme.hintColor,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
             const SizedBox(height: 30.0),
             Text(
-              "Choose Your Daily \nBudget",
-              style: textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: theme.primaryColorDark,
-              ),
+              "Tell us your budget plan",
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 40.0),
             first
-                ? _buildSelectedOption("\u20B9 Five Hundred")
-                : _buildUnselectedOption("\u20B9 Five Hundred", () {
+                ? _buildSelectedOption("Rs .1000")
+                : _buildUnselectedOption("Rs .1000", () {
                     setState(() {
                       first = true;
                       second = false;
@@ -58,8 +53,8 @@ class _BudgetSetupState extends State<BudgetSetup> {
                   }),
             const SizedBox(height: 20.0),
             second
-                ? _buildSelectedOption("\u20B9 Seven Hundred")
-                : _buildUnselectedOption("\u20B9 Seven Hundred", () {
+                ? _buildSelectedOption("Rs .700")
+                : _buildUnselectedOption("Rs .700", () {
                     setState(() {
                       first = false;
                       second = true;
@@ -69,8 +64,8 @@ class _BudgetSetupState extends State<BudgetSetup> {
                   }),
             const SizedBox(height: 20.0),
             third
-                ? _buildSelectedOption("\u20B9 Thousand +")
-                : _buildUnselectedOption("\u20B9 Thousand +", () {
+                ? _buildSelectedOption("Rs .500")
+                : _buildUnselectedOption("Rs .500", () {
                     setState(() {
                       first = false;
                       second = false;
@@ -91,21 +86,21 @@ class _BudgetSetupState extends State<BudgetSetup> {
                   : null,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 7.0),
-                width: double.infinity,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: randombutton
-                      ? theme.colorScheme.secondary
-                      : theme.disabledColor,
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Text(
                     "Next",
-                    style: textTheme.labelLarge?.copyWith(
-                      color: randombutton ? Colors.white : theme.hintColor,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: randombutton
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
                   ),
                 ),
               ),
@@ -119,19 +114,18 @@ class _BudgetSetupState extends State<BudgetSetup> {
   Widget _buildSelectedOption(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.red, width: 2.0),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primary,
+          width: 2.0,
+        ),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 20.0,
-            fontWeight: FontWeight.w500,
-          ),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
     );
@@ -142,19 +136,18 @@ class _BudgetSetupState extends State<BudgetSetup> {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 2.0),
+          border: Border.all(
+            color: Theme.of(context).dividerColor,
+            width: 2.0,
+          ),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
       ),

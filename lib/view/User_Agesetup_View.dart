@@ -15,50 +15,54 @@ class _UserAgeSetupState extends State<UserAgeSetup> {
   DateTime dateTime = DateTime.now();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Title Label
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "ENTER YOUR AGE",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Get current theme
+    final textTheme = theme.textTheme;
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Title Label
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "ENTER YOUR AGE",
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.textTheme.headlineSmall
+                      ?.color, // Use color from text theme
                 ),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 40),
+            ),
+            const SizedBox(height: 40),
 
-              // Date Picker
-              buildDatePicker(),
-              const SizedBox(height: 24),
+            // Date Picker
+            buildDatePicker(),
+            const SizedBox(height: 24),
 
-              // NEXT Button (updated ButtonWidget)
-              ButtonWidget(
-                text: "NEXT", // The text is now "NEXT"
-                onClicked: () {
-                  // You can handle the selected date here
-                  final selectedDate =
-                      DateFormat('yyyy/MM/dd').format(dateTime);
-                  // Navigating to Dashboard screen when NEXT is clicked
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Dashboard(selectedDate: selectedDate)),
-                  );
-                },
-              ),
-            ],
-          ),
+            // NEXT Button (updated ButtonWidget)
+            ButtonWidget(
+              text: "NEXT", // The text is now "NEXT"
+              onClicked: () {
+                // You can handle the selected date here
+                final selectedDate = DateFormat('yyyy/MM/dd').format(dateTime);
+                // Navigating to Dashboard screen when NEXT is clicked
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Dashboard(selectedDate: selectedDate),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget buildDatePicker() => SizedBox(
         height: 180,
@@ -85,42 +89,35 @@ class ButtonWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => ElevatedButton(
-        style: ElevatedButton.styleFrom(minimumSize: const Size(100, 42)),
-        onPressed: onClicked,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.arrow_forward, size: 28), // Arrow icon for "Next"
-            const SizedBox(width: 8),
-            Text(
-              text, // Display the "NEXT" text passed from the parent
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Get current theme
+    final textTheme = theme.textTheme;
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(100, 42),
+        backgroundColor:
+            theme.colorScheme.secondary, // Secondary color from theme
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30), // Rounded corners
         ),
-      );
-}
-
-// Dashboard screen that shows after clicking NEXT
-
-class Utils {
-  static List<Widget> modelBuilder<M>(
-          List<M> models, Widget Function(int index, M model) builder) =>
-      models
-          .asMap()
-          .map<int, Widget>(
-              (index, model) => MapEntry(index, builder(index, model)))
-          .values
-          .toList();
-
-  static void showSnackBar(BuildContext context, String text) {
-    final snackBar = SnackBar(
-      content: Text(text, style: const TextStyle(fontSize: 24)),
+      ),
+      onPressed: onClicked,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.arrow_forward, size: 28), // Arrow icon for "Next"
+          const SizedBox(width: 8),
+          Text(
+            text, // Display the "NEXT" text passed from the parent
+            style: textTheme.labelLarge?.copyWith(
+              color:
+                  theme.scaffoldBackgroundColor, // Light beige color for text
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
     );
-
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(snackBar);
   }
 }
