@@ -56,7 +56,7 @@ class Onboarding extends StatelessWidget {
         onTapSkipButton: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SignUpView()),
+            MaterialPageRoute(builder: (context) => const SignUpView()),
           );
         },
         skipTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -80,7 +80,7 @@ class Introduction {
   });
 }
 
-class IntroScreenOnboarding extends StatelessWidget {
+class IntroScreenOnboarding extends StatefulWidget {
   final Color backgroundColor;
   final Color? foregroundColor;
   final List<Introduction> introductionList;
@@ -97,16 +97,42 @@ class IntroScreenOnboarding extends StatelessWidget {
   });
 
   @override
+  _IntroScreenOnboardingState createState() => _IntroScreenOnboardingState();
+}
+
+class _IntroScreenOnboardingState extends State<IntroScreenOnboarding> {
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page?.toInt() ?? 0;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColor,
+      color: widget.backgroundColor,
       child: Column(
         children: [
           Expanded(
             child: PageView.builder(
-              itemCount: introductionList.length,
+              controller: _pageController,
+              itemCount: widget.introductionList.length,
               itemBuilder: (context, index) {
-                final intro = introductionList[index];
+                final intro = widget.introductionList[index];
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -116,7 +142,7 @@ class IntroScreenOnboarding extends StatelessWidget {
                       intro.title,
                       style: TextStyle(
                         fontSize: 24,
-                        color: foregroundColor,
+                        color: widget.foregroundColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -131,10 +157,13 @@ class IntroScreenOnboarding extends StatelessWidget {
               },
             ),
           ),
-          TextButton(
-            onPressed: onTapSkipButton,
-            child: Text("Skip", style: skipTextStyle),
-          ),
+          if (_currentPage ==
+              widget.introductionList.length -
+                  1) // Show "Skip" only on the last slide
+            TextButton(
+              onPressed: widget.onTapSkipButton,
+              child: Text("Skip", style: widget.skipTextStyle),
+            ),
         ],
       ),
     );

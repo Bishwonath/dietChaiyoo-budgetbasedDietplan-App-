@@ -44,11 +44,7 @@ class _SignUpViewState extends State<SignUpView> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 2,
+                SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(

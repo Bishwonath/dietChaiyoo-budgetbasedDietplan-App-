@@ -17,7 +17,7 @@ class _DashboardState extends State<Dashboard> {
 
   // List of Screens
   final List<Widget> lstBottomScreen = [
-     HomePage(),
+    const HomePage(),
     const CartScreen(),
     const ProfileScreen(),
     const AboutScreen(),
@@ -27,7 +27,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: const Text('diet chaiyoo'),
         centerTitle: true,
       ),
       body: lstBottomScreen[_selectedIndex],

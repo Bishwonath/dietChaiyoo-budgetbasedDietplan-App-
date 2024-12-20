@@ -55,11 +55,10 @@ class _HomePageState extends State<HomePage> {
                       },
                       children: [
                         _buildHeaderSliderItem(
-                            title: "Foeseal", subtitle: "EDM Artist"),
+                            title: "Restaurant", subtitle: "Recommendations"),
                         _buildHeaderSliderItem(
-                            title: "Maya Gurung", subtitle: "Melody Innovator"),
-                        _buildHeaderSliderItem(
-                            title: "Ram", subtitle: "EDM Artist"),
+                            title: "Personalised", subtitle: "Meal Plans"),
+                        _buildHeaderSliderItem(title: "Diet", subtitle: "Plan"),
                       ],
                     ),
                   ),
@@ -84,21 +83,13 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               const SizedBox(height: 16),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   children: [
-              //     _buildNavItem(Icons.music_note, "Music"),
-              //     _buildNavItem(Icons.palette, "Art"),
-              //     _buildNavItem(Icons.shopping_bag, "Merch"),
-              //     _buildNavItem(Icons.event, "Events"),
-              //   ],
-              // ),
+
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Trending Tracks",
+                    "Hot Nutritional sales",
                     style: TextStyle(
                       fontFamily: "Montserrat Bold",
                       fontSize: 18,
@@ -112,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text(
                       "Browse More",
                       style: TextStyle(
-                        color: Colors.purple,
+                        color: Color.fromARGB(255, 34, 32, 34),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -126,17 +117,20 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     _buildTrendingCard(
-                        title: "Bimbaaakash",
-                        artist: "Bartika Rai",
-                        price: "Rs 499"),
+                      title: "Budget-Friendly Vegan Meal Plan",
+                      artist: "Balanced Nutrition",
+                      price: "Rs 499", // Price for the meal plan
+                    ),
                     _buildTrendingCard(
-                        title: "Atti Bhayo",
-                        artist: "Albatross",
-                        price: "Rs 399"),
+                      title: "High-Protein Meal Plan",
+                      artist: "Protein Power",
+                      price: "Rs 399", // Price for the meal plan
+                    ),
                     _buildTrendingCard(
-                        title: "Gantabya",
-                        artist: "The Edge Band",
-                        price: "Rs 399"),
+                      title: "Customizable Keto Plan",
+                      artist: "Keto Master",
+                      price: "Rs 399", // Price for the meal plan
+                    ),
                   ],
                 ),
               ),
@@ -156,19 +150,26 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     _buildTrendingCard(
-                        title: "Ma Ra Malai",
-                        artist: "Albatross",
-                        price: "Rs 499"),
+                      title: "Beginner's Fitness Plan",
+                      artist: "FitStart",
+                      price: "Rs 499", // Price for the fitness plan
+                    ),
                     _buildTrendingCard(
-                        title: "Atti Bhayo",
-                        artist: "Albatross",
-                        price: "Rs 399"),
+                      title: "Home Workout Routine",
+                      artist: "Body Sculpt",
+                      price: "Rs 399", // Price for the fitness plan
+                    ),
+                    _buildTrendingCard(
+                      title: "Yoga for Flexibility",
+                      artist: "Zen Fitness",
+                      price: "Rs 399", // Price for the fitness plan
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 24),
               const Text(
-                "Artist Spotlight",
+                "Exercise Routines",
                 style: TextStyle(
                   fontFamily: "Montserrat Bold",
                   fontSize: 18,
@@ -183,25 +184,26 @@ class _HomePageState extends State<HomePage> {
                 child: ListTile(
                   leading: const CircleAvatar(
                     backgroundImage:
-                        AssetImage('assets/images/diet cahiyoo logo.png'),
+                        AssetImage('assets/images/onboarding1.png'),
                   ),
                   title: const Text(
-                    "Maya Gurung",
+                    "Push ups",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   subtitle: const Text(
-                    "Blending traditional Nepalese melodies with modern arrangements. Latest album \"Valley Dreams\" out now.",
+                    "A push-up is a calisthenics exercise that works your upper body and core",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   trailing: TextButton(
                     onPressed: () {},
                     child: const Text(
-                      "View Profile",
+                      "View Techniques",
                       style: TextStyle(
-                          color: Colors.purple, fontWeight: FontWeight.bold),
+                          color: Color.fromARGB(255, 16, 15, 16),
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -242,7 +244,7 @@ class _HomePageState extends State<HomePage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                'assets/images/diet cahiyoo logo.png',
+                'assets/images/onboarding2.png',
                 height: 100,
                 width: 150,
                 fit: BoxFit.cover,
@@ -279,7 +281,7 @@ class _HomePageState extends State<HomePage> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         image: const DecorationImage(
-          image: AssetImage('assets/images/diet cahiyoo logo.png'),
+          image: AssetImage('assets/images/logo.png'),
           fit: BoxFit.cover,
         ),
       ),
