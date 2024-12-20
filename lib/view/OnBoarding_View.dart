@@ -1,174 +1,134 @@
 import 'package:diet_chaiyoo/view/Sigup_View.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
-
-  @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
-  static final PageController _pageController = PageController(initialPage: 0);
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> onBoardingPages = [
-      OnboardingCard(
-        image: "assets/images/diet cahiyoo logo.png",
-        title: 'Welcome to Diet Chahiyo!',
-        description:
-            'Diet Chaiyoo is an app that makes meal planning easy by offering personalized meal ideas, budget tracking,\n  & \nsupport for dietary preferences.',
-        buttonText: 'Next',
-        onPressed: () {
-          _pageController.animateToPage(
-            1,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.linear,
-          );
-        },
-      ),
-      OnboardingCard(
-        image: "assets/images/slighly.png",
-        title: 'Create an Account and Choose a Course',
-        description:
-            'Directing users to create an account on Learn.io and select a course that fits their interests and needs.',
-        buttonText: 'Next',
-        onPressed: () {
-          _pageController.animateToPage(
-            2,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.linear,
-          );
-        },
-      ),
-      OnboardingCard(
-        image: "assets/images/onboarding_3.png",
-        title: 'Learn Personally',
-        description:
-            'Emphasizing the benefits of learning on Learn.io that can be tailored to users\' personal needs and abilities.',
-        buttonText: 'Let\'s Go!',
-        onPressed: () {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Onboarding(),
+    );
+  }
+}
+
+class Onboarding extends StatelessWidget {
+  const Onboarding({super.key});
+
+  final List<Introduction> list = const [
+    Introduction(
+      title: 'Fashion Store',
+      subTitle: 'Browse the menu and order directly from the application',
+      imageUrl: 'assets/images/diet cahiyoo logo.png',
+    ),
+    Introduction(
+      title: 'Delivery',
+      subTitle: 'Your order will be immediately collected and delivered',
+      imageUrl: 'assets/images/diet cahiyoo logo.png',
+    ),
+    Introduction(
+      title: 'Receive Money',
+      subTitle: 'Pick up delivery at your door and enjoy groceries',
+      imageUrl: 'assets/images/diet cahiyoo logo.png',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: IntroScreenOnboarding(
+        backgroundColor: const Color(0xFFf9f9f9),
+        foregroundColor: const Color(0xFFFFAA00),
+        introductionList: list,
+        onTapSkipButton: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => SignUpView()),
           );
         },
-      ),
-    ];
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                children: onBoardingPages,
-              ),
-            ),
-            SmoothPageIndicator(
-              controller: _pageController,
-              count: onBoardingPages.length,
-              effect: ExpandingDotsEffect(
-                activeDotColor: Theme.of(context).colorScheme.primary,
-                dotColor: Theme.of(context).colorScheme.secondary,
-                    dotHeight: 6.0,  // Set smaller dot height
-    dotWidth: 6.0,   // Set smaller dot width
-              ),
-              onDotClicked: (index) {
-                _pageController.animateToPage(
-                  index,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.linear,
-                );
-              },
-            ),
-          ],
+        skipTextStyle: const TextStyle(
+          color: Colors.blueGrey,
+          fontSize: 18,
         ),
       ),
     );
   }
 }
 
-class OnboardingCard extends StatelessWidget {
-  final String image, title, description, buttonText;
-  final Function onPressed;
+class Introduction {
+  final String title;
+  final String subTitle;
+  final String imageUrl;
 
-  const OnboardingCard({
-    super.key,
-    required this.image,
+  const Introduction({
     required this.title,
-    required this.description,
-    required this.buttonText,
-    required this.onPressed,
+    required this.subTitle,
+    required this.imageUrl,
+  });
+}
+
+class IntroScreenOnboarding extends StatelessWidget {
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final List<Introduction> introductionList;
+  final VoidCallback onTapSkipButton;
+  final TextStyle skipTextStyle;
+
+  const IntroScreenOnboarding({
+    super.key,
+    required this.backgroundColor,
+    required this.foregroundColor,
+    required this.introductionList,
+    required this.onTapSkipButton,
+    required this.skipTextStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.sizeOf(context).height * 1,
-      width: MediaQuery.sizeOf(context).width,
+      color: backgroundColor,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(50.0),
-            child: FractionallySizedBox(
-              widthFactor: 1 / 3, // 1/3 of the screen width
-              child: Image.asset(
-                image,
-                fit: BoxFit.contain,
-              ),
+          Expanded(
+            child: PageView.builder(
+              itemCount: introductionList.length,
+              itemBuilder: (context, index) {
+                final intro = introductionList[index];
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(intro.imageUrl),
+                    const SizedBox(height: 16),
+                    Text(
+                      intro.title,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: foregroundColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      intro.subTitle,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
-          Column(
-            children: [
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              )
-            ],
-          ),
-          MaterialButton(
-            minWidth: 300,
-            onPressed: () => onPressed(),
-            color: Theme.of(context).colorScheme.primary,
-            child: Text(
-              buttonText,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
+          TextButton(
+            onPressed: onTapSkipButton,
+            child: Text("Skip", style: skipTextStyle),
           ),
         ],
       ),
     );
   }
 }
-
-

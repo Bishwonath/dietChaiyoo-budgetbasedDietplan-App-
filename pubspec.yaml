@@ -2,7 +2,7 @@ name: diet_chaiyoo
 description: "Your Budget Based Diet Plans"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,8 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
-
+  sdk: ">=3.3.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,13 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
-
+  intro_screen_onboarding_flutter: ^1.0.0
+  cupertino_icons: ^1.0.6
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
+
   smooth_page_indicator: ^1.2.0+3
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
@@ -57,9 +57,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/slighly thin.png
-    - assets/images/nayaphone.png
+    - assets/images/
     - assets/images/diet cahiyoo logo.png
-
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -82,10 +81,17 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Montserrat Bold
+      fonts:
+        - asset: assets/fonts/Montserrat-Bold.ttf
+    - family: Montserrat ExtraLight
+      fonts:
+        - asset: assets/fonts/Montserrat-ExtraLight.ttf
+    - family: Montserrat Italic
+      fonts:
+        - asset: assets/fonts/Montserrat-italic.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
@@ -93,6 +99,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  # #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

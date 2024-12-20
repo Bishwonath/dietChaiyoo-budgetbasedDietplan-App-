@@ -1,7 +1,5 @@
 import 'package:diet_chaiyoo/view/Budget_Setup_View.dart';
 import 'package:diet_chaiyoo/view/Sigup_View.dart';
-import 'package:diet_chaiyoo/view/Select_Packages_View.dart';
-import 'package:diet_chaiyoo/view/User_Agesetup_View.dart';
 import 'package:flutter/material.dart';
 
 class SelectPackages extends StatefulWidget {
@@ -18,7 +16,8 @@ class _SelectPackagesState extends State<SelectPackages> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0, bottom: 40.0),
+        margin: const EdgeInsets.only(
+            top: 50.0, left: 20.0, right: 20.0, bottom: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,23 +29,23 @@ class _SelectPackagesState extends State<SelectPackages> {
                   MaterialPageRoute(builder: (context) => SignUpView()),
                 );
               },
-              child: Icon(
-                
+              child: const Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 30.0,
-                color: const Color.fromARGB(255, 139, 141, 143),
+                color: Color.fromARGB(255, 139, 141, 143),
               ),
             ),
-            SizedBox(height: 30.0),
-            Text(
-              "Choose Your Goal",
+            const SizedBox(height: 30.0),
+            const Text(
+              "Choose Your Goal ",
               style: TextStyle(
+                // fontFamily: "Montserrat ExtraLight",
                 color: Colors.black,
                 fontSize: 30.0,
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 40.0),
+            const SizedBox(height: 40.0),
             first
                 ? _buildSelectedOption("Gain Weight")
                 : _buildUnselectedOption("Gain Weight", () {
@@ -57,7 +56,7 @@ class _SelectPackagesState extends State<SelectPackages> {
                       randombutton = true;
                     });
                   }),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             second
                 ? _buildSelectedOption("lose Weight")
                 : _buildUnselectedOption("lose Weight", () {
@@ -68,7 +67,7 @@ class _SelectPackagesState extends State<SelectPackages> {
                       randombutton = true;
                     });
                   }),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             third
                 ? _buildSelectedOption("Stay healthy")
                 : _buildUnselectedOption("Stay healthy", () {
@@ -79,19 +78,20 @@ class _SelectPackagesState extends State<SelectPackages> {
                       randombutton = true;
                     });
                   }),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: randombutton
                   ? () {
                       // Navigate to UserAgeSetup screen
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => BudgetSetup()),
+                        MaterialPageRoute(
+                            builder: (context) => const BudgetSetup()),
                       );
                     }
                   : null, // Button remains disabled if randombutton is false
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 7.0),
+                padding: const EdgeInsets.symmetric(vertical: 7.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: randombutton
@@ -121,16 +121,17 @@ class _SelectPackagesState extends State<SelectPackages> {
   // Helper methods to avoid repetitive code for budget options
   Widget _buildSelectedOption(String text) {
     return Container(
-      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromARGB(255, 21, 104, 11), width: 2.0),
+        border: Border.all(
+            color: const Color.fromARGB(255, 21, 104, 11), width: 2.0),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Center(
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 22.0,
             fontWeight: FontWeight.w500,
@@ -144,16 +145,16 @@ class _SelectPackagesState extends State<SelectPackages> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffb9bec7), width: 2.0),
+          border: Border.all(color: const Color(0xffb9bec7), width: 2.0),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 22.0,
               fontWeight: FontWeight.w500,
