@@ -4,17 +4,15 @@ import 'package:flutter/material.dart';
 class SignUpView extends StatelessWidget {
   SignUpView({super.key});
 
-  // text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  // sign user in method
-  void signUserIn() {}
+  // Text editing controllers
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context)
+          .scaffoldBackgroundColor, // Use global background color
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -26,27 +24,18 @@ class SignUpView extends StatelessWidget {
                 children: [
                   const SizedBox(height: 30),
 
-                  // logo
-                  const Icon(
+                  // Logo
+                  Icon(
                     Icons.lock,
                     size: 80,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary, // Use primary color
                   ),
 
                   const SizedBox(height: 20),
 
-                  // welcome back, you've been missed!
-                  Text(
-                    'Welcome back you\'ve been missed!',
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // username textfield
+                  // Username text field
                   MyTextField(
                     controller: usernameController,
                     hintText: 'Username',
@@ -55,119 +44,41 @@ class SignUpView extends StatelessWidget {
 
                   const SizedBox(height: 15),
 
-                  // password textfield
+                  // Password text field
                   MyTextField(
                     controller: passwordController,
                     hintText: 'Password',
                     obscureText: true,
                   ),
 
-                  const SizedBox(height: 10),
-
-                  // forgot password?
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.grey[600]),
-                    ),
-                  ),
-
                   const SizedBox(height: 20),
 
-                  // sign in button
-                  GestureDetector(
-                    onTap: () {
+                  // Sign in button
+                  ElevatedButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SelectPackages()),
+                          builder: (context) => const SelectPackages(),
+                        ),
                       );
                     },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Sign In",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      textStyle:
+                          Theme.of(context).textTheme.labelLarge?.copyWith(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary, // Set a contrasting color for text
+                              ),
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .primary, // Primary color for button
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
+                    child: const Text("Sign In"),
                   ),
-
-                  const SizedBox(height: 30),
-
-                  // or continue with
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                          'Or continue with',
-                          style: TextStyle(color: Colors.grey[700]),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // google + apple sign in buttons
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // google button
-                      SquareTile(imagePath: 'assets/images/logo.png'),
-
-                      SizedBox(width: 15),
-
-                      // apple button
-                      SquareTile(imagePath: 'assets/images/logo.png')
-                    ],
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  // not a member? register now
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Not a member?',
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                      const SizedBox(width: 4),
-                      const Text(
-                        'Register now',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
@@ -198,41 +109,24 @@ class MyTextField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding:
             const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color:
+                  Theme.of(context).colorScheme.surface), // Use surface color
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400),
+          borderSide: BorderSide(
+              color:
+                  Theme.of(context).colorScheme.primary), // Use primary color
         ),
-        fillColor: Colors.grey.shade200,
+        fillColor: Theme.of(context).colorScheme.surface, // Use surface color
         filled: true,
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey[500]),
-      ),
-    );
-  }
-}
-
-class SquareTile extends StatelessWidget {
-  final String imagePath;
-
-  const SquareTile({
-    super.key,
-    required this.imagePath,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.grey[200],
-      ),
-      child: Image.asset(
-        imagePath,
-        height: 30,
+        hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface, // Use onSurface color
+            ),
       ),
     );
   }

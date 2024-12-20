@@ -1,3 +1,4 @@
+import 'package:diet_chaiyoo/core/app_theme/app_theme.dart';
 import 'package:diet_chaiyoo/view/Sigup_View.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Onboarding(),
+      theme: getapplicationTheme(),
+      home: const Onboarding(),
     );
   }
 }
@@ -22,19 +24,21 @@ class Onboarding extends StatelessWidget {
 
   final List<Introduction> list = const [
     Introduction(
-      title: 'Fashion Store',
-      subTitle: 'Browse the menu and order directly from the application',
-      imageUrl: 'assets/images/diet cahiyoo logo.png',
+      title: 'Personalized Meal Ideas',
+      subTitle:
+          'Get tailored meal suggestions based on your preferences and budget.',
+      imageUrl: 'assets/images/onboarding1.png',
     ),
     Introduction(
-      title: 'Delivery',
-      subTitle: 'Your order will be immediately collected and delivered',
-      imageUrl: 'assets/images/diet cahiyoo logo.png',
+      title: 'Dietary Preferences and Support.',
+      subTitle: 'Plan meals and manage your expenses effortlessly.',
+      imageUrl: 'assets/images/onboarding2.png',
     ),
     Introduction(
-      title: 'Receive Money',
-      subTitle: 'Pick up delivery at your door and enjoy groceries',
-      imageUrl: 'assets/images/diet cahiyoo logo.png',
+      title: 'Analytics and Tracking',
+      subTitle:
+          'Track your food habits and spending patterns to make smarter choices.',
+      imageUrl: 'assets/images/onboarding3.png',
     ),
   ];
 
@@ -42,8 +46,12 @@ class Onboarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IntroScreenOnboarding(
-        backgroundColor: const Color(0xFFf9f9f9),
-        foregroundColor: const Color(0xFFFFAA00),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Theme.of(context)
+            .elevatedButtonTheme
+            .style
+            ?.backgroundColor
+            ?.resolve({}),
         introductionList: list,
         onTapSkipButton: () {
           Navigator.push(
@@ -51,10 +59,10 @@ class Onboarding extends StatelessWidget {
             MaterialPageRoute(builder: (context) => SignUpView()),
           );
         },
-        skipTextStyle: const TextStyle(
-          color: Colors.blueGrey,
-          fontSize: 18,
-        ),
+        skipTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.blueGrey,
+              fontSize: 18,
+            ),
       ),
     );
   }
@@ -74,10 +82,10 @@ class Introduction {
 
 class IntroScreenOnboarding extends StatelessWidget {
   final Color backgroundColor;
-  final Color foregroundColor;
+  final Color? foregroundColor;
   final List<Introduction> introductionList;
   final VoidCallback onTapSkipButton;
-  final TextStyle skipTextStyle;
+  final TextStyle? skipTextStyle;
 
   const IntroScreenOnboarding({
     super.key,

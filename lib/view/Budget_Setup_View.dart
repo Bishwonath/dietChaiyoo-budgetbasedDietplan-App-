@@ -14,40 +14,41 @@ class _BudgetSetupState extends State<BudgetSetup> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0, bottom: 40.0),
+        margin: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
               onTap: () {
-                // Navigate back to SelectPackages screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SelectPackages()),
+                  MaterialPageRoute(
+                      builder: (context) => const SelectPackages()),
                 );
               },
               child: Icon(
-                
                 Icons.arrow_back_ios_new_rounded,
                 size: 30.0,
-                color: const Color.fromARGB(255, 139, 141, 143),
+                color: theme.hintColor,
               ),
             ),
-            SizedBox(height: 30.0),
+            const SizedBox(height: 30.0),
             Text(
               "Choose Your Daily \nBudget",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 30.0,
+              style: textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
+                color: theme.primaryColorDark,
               ),
             ),
-            SizedBox(height: 40.0),
+            const SizedBox(height: 40.0),
             first
-                ? _buildSelectedOption("₹ Five Hundred")
-                : _buildUnselectedOption("₹ Five Hundred", () {
+                ? _buildSelectedOption("\u20B9 Five Hundred")
+                : _buildUnselectedOption("\u20B9 Five Hundred", () {
                     setState(() {
                       first = true;
                       second = false;
@@ -55,10 +56,10 @@ class _BudgetSetupState extends State<BudgetSetup> {
                       randombutton = true;
                     });
                   }),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             second
-                ? _buildSelectedOption("₹ Seven Hundred")
-                : _buildUnselectedOption("₹ Seven Hundred", () {
+                ? _buildSelectedOption("\u20B9 Seven Hundred")
+                : _buildUnselectedOption("\u20B9 Seven Hundred", () {
                     setState(() {
                       first = false;
                       second = true;
@@ -66,10 +67,10 @@ class _BudgetSetupState extends State<BudgetSetup> {
                       randombutton = true;
                     });
                   }),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             third
-                ? _buildSelectedOption("₹ Thousand +")
-                : _buildUnselectedOption("₹ Thousand +", () {
+                ? _buildSelectedOption("\u20B9 Thousand +")
+                : _buildUnselectedOption("\u20B9 Thousand +", () {
                     setState(() {
                       first = false;
                       second = false;
@@ -77,33 +78,32 @@ class _BudgetSetupState extends State<BudgetSetup> {
                       randombutton = true;
                     });
                   }),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: randombutton
                   ? () {
-                      // Navigate to UserAgeSetup screen
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => UserAgeSetup()),
+                        MaterialPageRoute(
+                            builder: (context) => const UserAgeSetup()),
                       );
                     }
-                  : null, // Button remains disabled if randombutton is false
+                  : null,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 7.0),
-                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.symmetric(vertical: 7.0),
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: randombutton
-                      ? const Color.fromARGB(255, 236, 141, 25)
-                      : const Color(0xffeaebef),
+                      ? theme.colorScheme.secondary
+                      : theme.disabledColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Text(
                     "Next",
-                    style: TextStyle(
-                      color:
-                          randombutton ? Colors.white : const Color(0xff7d8592),
-                      fontSize: 25.0,
+                    style: textTheme.labelLarge?.copyWith(
+                      color: randombutton ? Colors.white : theme.hintColor,
+                      fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -116,21 +116,20 @@ class _BudgetSetupState extends State<BudgetSetup> {
     );
   }
 
-  // Helper methods to avoid repetitive code for budget options
   Widget _buildSelectedOption(String text) {
     return Container(
-      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xfff5485a), width: 2.0),
+        border: Border.all(color: Colors.red, width: 2.0),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Center(
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
-            fontSize: 22.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -142,18 +141,18 @@ class _BudgetSetupState extends State<BudgetSetup> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        width: double.infinity,
         decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffb9bec7), width: 2.0),
+          border: Border.all(color: Colors.grey, width: 2.0),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
-              fontSize: 22.0,
+              fontSize: 20.0,
               fontWeight: FontWeight.w500,
             ),
           ),

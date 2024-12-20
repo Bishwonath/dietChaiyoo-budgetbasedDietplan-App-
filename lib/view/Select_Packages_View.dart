@@ -23,27 +23,21 @@ class _SelectPackagesState extends State<SelectPackages> {
           children: [
             GestureDetector(
               onTap: () {
-                // Navigate back to SelectPackages screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SignUpView()),
                 );
               },
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 30.0,
-                color: Color.fromARGB(255, 139, 141, 143),
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
             const SizedBox(height: 30.0),
-            const Text(
-              "Choose Your Goal ",
-              style: TextStyle(
-                // fontFamily: "Montserrat ExtraLight",
-                color: Colors.black,
-                fontSize: 30.0,
-                // fontWeight: FontWeight.bold,
-              ),
+            Text(
+              "Choose Your Goal",
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 40.0),
             first
@@ -58,8 +52,8 @@ class _SelectPackagesState extends State<SelectPackages> {
                   }),
             const SizedBox(height: 20.0),
             second
-                ? _buildSelectedOption("lose Weight")
-                : _buildUnselectedOption("lose Weight", () {
+                ? _buildSelectedOption("Lose Weight")
+                : _buildUnselectedOption("Lose Weight", () {
                     setState(() {
                       first = false;
                       second = true;
@@ -69,8 +63,8 @@ class _SelectPackagesState extends State<SelectPackages> {
                   }),
             const SizedBox(height: 20.0),
             third
-                ? _buildSelectedOption("Stay healthy")
-                : _buildUnselectedOption("Stay healthy", () {
+                ? _buildSelectedOption("Stay Healthy")
+                : _buildUnselectedOption("Stay Healthy", () {
                     setState(() {
                       first = false;
                       second = false;
@@ -82,32 +76,30 @@ class _SelectPackagesState extends State<SelectPackages> {
             GestureDetector(
               onTap: randombutton
                   ? () {
-                      // Navigate to UserAgeSetup screen
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const BudgetSetup()),
                       );
                     }
-                  : null, // Button remains disabled if randombutton is false
+                  : null,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 7.0),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: randombutton
-                      ? const Color.fromARGB(255, 21, 104, 11)
-                      : const Color(0xffeaebef),
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Center(
                   child: Text(
                     "Next",
-                    style: TextStyle(
-                      color:
-                          randombutton ? Colors.white : const Color(0xff7d8592),
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: randombutton
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
                   ),
                 ),
               ),
@@ -118,24 +110,21 @@ class _SelectPackagesState extends State<SelectPackages> {
     );
   }
 
-  // Helper methods to avoid repetitive code for budget options
   Widget _buildSelectedOption(String text) {
     return Container(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         border: Border.all(
-            color: const Color.fromARGB(255, 21, 104, 11), width: 2.0),
+          color: Theme.of(context).colorScheme.primary,
+          width: 2.0,
+        ),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 22.0,
-            fontWeight: FontWeight.w500,
-          ),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
     );
@@ -145,20 +134,19 @@ class _SelectPackagesState extends State<SelectPackages> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xffb9bec7), width: 2.0),
+          border: Border.all(
+            color: Theme.of(context).dividerColor,
+            width: 2.0,
+          ),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 22.0,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
       ),

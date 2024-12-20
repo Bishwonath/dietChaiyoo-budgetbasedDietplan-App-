@@ -56,7 +56,6 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/slighly thin.png
     - assets/images/
     - assets/images/diet cahiyoo logo.png
 
