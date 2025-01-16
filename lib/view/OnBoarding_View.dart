@@ -30,7 +30,7 @@ class Onboarding extends StatelessWidget {
       imageUrl: 'assets/images/onboarding1.png',
     ),
     Introduction(
-      title: 'Dietary Preferences and Support.',
+      title: 'Dietary Preferences and Support',
       subTitle: 'Plan meals and manage your expenses effortlessly.',
       imageUrl: 'assets/images/onboarding2.png',
     ),
@@ -56,7 +56,9 @@ class Onboarding extends StatelessWidget {
         onTapSkipButton: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SignUpView()),
+            MaterialPageRoute(
+              builder: (context) => const SignUpView(),
+            ),
           );
         },
         skipTextStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
