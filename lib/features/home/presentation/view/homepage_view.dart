@@ -3,7 +3,6 @@ import 'package:diet_chaiyoo/features/home/presentation/view_model/home_state.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class HomePageView extends StatefulWidget {
   const HomePageView({Key? key}) : super(key: key);
 
@@ -12,18 +11,9 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "LOOTVAULT",
-        ),
-        automaticallyImplyLeading: false,
-      ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return state.views.elementAt(state.selectedIndex);
@@ -35,9 +25,10 @@ class _HomePageViewState extends State<HomePageView> {
             borderRadius: BorderRadius.circular(18),
             child: BottomNavigationBar(
               items: [
-                _buildBarItem(Icons.home, "Home", 0,state.selectedIndex),
-                _buildBarItem(Icons.explore, "Discover", 1, state.selectedIndex),
-                _buildBarItem(Icons.forum, "Forum", 2, state.selectedIndex),
+                _buildBarItem(Icons.home, "Home", 0, state.selectedIndex),
+                _buildBarItem(
+                    Icons.explore, "Discover", 1, state.selectedIndex),
+                _buildBarItem(Icons.forum, "Community", 2, state.selectedIndex),
                 _buildBarItem(Icons.person, "Profile", 3, state.selectedIndex),
               ],
               currentIndex: state.selectedIndex,
@@ -62,7 +53,9 @@ class _HomePageViewState extends State<HomePageView> {
     return BottomNavigationBarItem(
       icon: Container(
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blue : Colors.transparent,
+          color: isSelected
+              ? const Color.fromARGB(255, 155, 171, 11)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),

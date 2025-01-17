@@ -17,7 +17,7 @@ class _LoginViewState extends State<LoginView> {
   final _smallgap = const SizedBox(height: 10);
 
   final TextEditingController _emailController =
-      TextEditingController(text: "hello@gmail.com");
+      TextEditingController(text: "Email");
   final TextEditingController _passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -45,7 +45,7 @@ class _LoginViewState extends State<LoginView> {
                           padding: const EdgeInsets.all(5),
                           child: ClipOval(
                             child: Image.asset(
-                              './assets/images/backgroundless_logo.png',
+                              './assets/images/logo.png',
                             ),
                           ),
                         ),
@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                       prefixIcon: Icons.email,
                       fillColor: Colors.white,
                       labelStyle: const TextStyle(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 141, 227, 80),
                         fontWeight: FontWeight.bold,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -100,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
                       obscureText: true,
                       prefixIcon: Icons.password_rounded,
                       labelStyle: const TextStyle(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 86, 243, 33),
                         fontWeight: FontWeight.bold,
                       ),
                       inputTextStyle: const TextStyle(
@@ -124,7 +124,7 @@ class _LoginViewState extends State<LoginView> {
 
                     // Forgot password area
                     const Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [Text("Forgot password ?")],
                     ),
                     _normalgap,
@@ -169,7 +169,7 @@ class _LoginViewState extends State<LoginView> {
                           child: const Text(
                             "Create one",
                             style: TextStyle(
-                              color: Colors.lightBlue,
+                              color: Color.fromARGB(255, 86, 243, 33),
                               fontWeight: FontWeight.w500,
                             ),
                           ),

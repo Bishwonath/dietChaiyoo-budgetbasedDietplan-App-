@@ -6,7 +6,6 @@ import 'package:diet_chaiyoo/features/auth/presentation/view_model/register/regi
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -21,19 +20,14 @@ class _RegisterViewState extends State<RegisterView> {
   final _cornerRadius = 10.0;
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController =
-      TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _retypePasswordController =
       TextEditingController();
-  final TextEditingController _emailController =
-      TextEditingController();
-  final TextEditingController _fullNameController =
-      TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
 
-    final TextEditingController _usernameController =
-      TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   @override
   void dispose() {
@@ -128,8 +122,7 @@ class _RegisterViewState extends State<RegisterView> {
                         child: Padding(
                           padding: const EdgeInsets.all(5),
                           child: ClipOval(
-                              child: Image.asset(
-                                  './assets/images/backgroundless_logo.png')),
+                              child: Image.asset('./assets/images/logo.png')),
                         ),
                       ),
                     ),
@@ -211,13 +204,13 @@ class _RegisterViewState extends State<RegisterView> {
                         if (_formKey.currentState!.validate()) {
                           // If the form is valid, perform actions
 
-                          context.read<RegisterBloc>().add(
-                            RegisterUser(
-                              context: context, 
-                              fullName: _fullNameController.text, 
-                              userName: _usernameController.text, 
-                              email: _emailController.text, phoneNo: _phoneController.text, password: _passwordController.text)
-                          );
+                          context.read<RegisterBloc>().add(RegisterUser(
+                              context: context,
+                              fullName: _fullNameController.text,
+                              userName: _usernameController.text,
+                              email: _emailController.text,
+                              phoneNo: _phoneController.text,
+                              password: _passwordController.text));
                           // ScaffoldMessenger.of(context)
                           //     .showSnackBar(const SnackBar(
                           //   content: Text(
@@ -233,7 +226,7 @@ class _RegisterViewState extends State<RegisterView> {
                         width: double.infinity,
                         height: 50,
                         decoration: BoxDecoration(
-                          color: const Color.fromRGBO(0, 107, 255, 1),
+                          color: const Color.fromARGB(255, 52, 74, 26),
                           borderRadius: BorderRadius.circular(_cornerRadius),
                         ),
                         child: const Text(
@@ -257,12 +250,19 @@ class _RegisterViewState extends State<RegisterView> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(context,MaterialPageRoute(builder: (context) => BlocProvider.value(value: getIt<LoginBloc>(),child: LoginView(),),));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BlocProvider.value(
+                                    value: getIt<LoginBloc>(),
+                                    child: LoginView(),
+                                  ),
+                                ));
                           },
                           child: const Text(
                             "Login",
                             style: TextStyle(
-                                color: Colors.lightBlue,
+                                color: Color.fromARGB(255, 26, 28, 25),
                                 fontWeight: FontWeight.w500),
                           ),
                         )
