@@ -1,7 +1,7 @@
 part of 'login_bloc.dart';
 
- class LoginState {
-   final bool isLoading;
+class LoginState {
+  final bool isLoading;
   final bool isSuccess;
 
   LoginState({
@@ -22,8 +22,4 @@ part of 'login_bloc.dart';
       isSuccess: isSuccess ?? this.isSuccess,
     );
   }
-  
-
 }
-
-

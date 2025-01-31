@@ -1,28 +1,33 @@
-import 'package:bloc/bloc.dart';
+
+import 'package:diet_chaiyoo/app/di/di.dart';
+import 'package:diet_chaiyoo/features/auth/presentation/view/login_view.dart';
+import 'package:diet_chaiyoo/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:diet_chaiyoo/features/home/presentation/view_model/home_state.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-
 
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState.initial());
 
-  void onTabTapped(int index){
-    emit(state.copyWith(selectedIndex:index));
+  void onTabTapped(int index) {
+    emit(state.copyWith(selectedIndex: index));
   }
 
-  // void logout(BuildContext context){
-  //   Future.delayed(const Duration(seconds: 1),()async{
-  //     if(context.mounted){
-  //       Navigator.pushReplacement(
-  //         context, 
-  //         MaterialPageRoute(builder: (context)=>BlocProvider.value(value:getIt() ,child:const LoginView(),))
-  //       );
-  //     }
-  //   });
-  // }
-  
+  void logout(BuildContext context) {
+    // Wait for 2 seconds
+    Future.delayed(const Duration(seconds: 2), () async {
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: getIt<LoginBloc>(),
+              child: LoginView(),
+            ),
+          ),
+        );
+      }
+    });
+  }
 }

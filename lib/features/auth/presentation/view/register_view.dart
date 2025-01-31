@@ -1,10 +1,14 @@
-import 'package:diet_chaiyoo/app/di/di.dart';
-import 'package:diet_chaiyoo/app/widget/shadow_inputbox.dart';
-import 'package:diet_chaiyoo/features/auth/presentation/view/login_view.dart';
-import 'package:diet_chaiyoo/features/auth/presentation/view_model/login/login_bloc.dart';
-import 'package:diet_chaiyoo/features/auth/presentation/view_model/register/register_bloc.dart';
+import 'dart:io';
+
+import 'package:diet_chaiyoo/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:diet_chaiyoo/features/auth/presentation/view_model/signup/register_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'terms_and_conditions.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -14,267 +18,353 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final _largeGap = const SizedBox(height: 25);
-  final _normalgap = const SizedBox(height: 18);
-  final _smallgap = const SizedBox(height: 10);
-  final _cornerRadius = 10.0;
-
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _retypePasswordController =
-      TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _fullNameController = TextEditingController();
-
-  final TextEditingController _usernameController = TextEditingController();
+  final _gap = const SizedBox(height: 16);
+  final _key = GlobalKey<FormState>();
+  final _fullnameController = TextEditingController(text: '');
+  final _phoneController = TextEditingController(text: '');
+  final _usernameController = TextEditingController(text: '');
+  final _passwordController = TextEditingController(text: '');
+  bool _termsAccepted = false;
+  File? _image;
 
   @override
-  void dispose() {
-    _fullNameController.dispose();
-    _emailController.dispose();
-    _phoneController.dispose();
-    _passwordController.dispose();
-    _retypePasswordController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    Hive.openBox('users'); // Open Hive box for users
   }
 
-  // Form validators
-  String? _emailValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your email address';
+  checkCameraPermission() async {
+    if (await Permission.camera.request().isRestricted ||
+        await Permission.camera.isDenied) {
+      await Permission.camera.request();
     }
-    if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-        .hasMatch(value)) {
-      return 'Enter a valid email address';
-    }
-    return null;
   }
 
-  String? _fullNameValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your full name';
+  File? _img;
+  String? imagePath;
+
+  Future _browseImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image != null) {
+        setState(() {
+          imagePath = image.path.split('/').last;
+          print("path set $imagePath");
+          _img = File(image.path);
+        });
+      } else {
+        return;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
-    if (value.length < 3) {
-      return 'Full name should be at least 3 characters';
-    }
-    return null;
   }
 
-  String? _phoneValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your phone number';
+  void _handleImageSelection(
+      BuildContext innercontext, ImageSource source) async {
+    await _browseImage(source);
+    print("Selected image: $_img");
+    if (_img != null) {
+      context.read<RegisterBloc>().add(
+            UploadImageEvent(context: context, img: _img!),
+          );
     }
-    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-      return 'Enter a valid 10-digit phone number';
-    }
-    return null;
-  }
-
-  String? _passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
-    }
-    if (value.length < 6) {
-      return 'Password should be at least 6 characters long';
-    }
-    return null;
-  }
-
-  String? _retypePasswordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please re-enter your password';
-    }
-    if (value != _passwordController.text) {
-      return 'Passwords do not match';
-    }
-    return null;
-  }
-
-  // Real-time validation for password and retype password
-  void _onPasswordChanged(String value) {
-    setState(() {});
-  }
-
-  void _onRetypePasswordChanged(String value) {
-    setState(() {});
+    Navigator.pop(innercontext);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(240, 247, 255, 1),
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // Logo
-                    SizedBox(
-                      child: CircleAvatar(
-                        radius: 56,
-                        backgroundColor: Colors.green,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: ClipOval(
-                              child: Image.asset('./assets/images/logo.png')),
-                        ),
-                      ),
-                    ),
-                    _largeGap,
-                    const Text(
-                      "REGISTER",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 24),
-                    ),
-                    _largeGap,
-
-                    // Fullname TextField with validation
-                    ShadowInputbox(
-                      labelText: 'Full Name',
-                      prefixIcon: Icons.person,
-                      controller: _fullNameController,
-                      validator: _fullNameValidator,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-
-                    _normalgap,
-                    ShadowInputbox(
-                      labelText: 'Username',
-                      prefixIcon: Icons.person,
-                      controller: _usernameController,
-                      validator: _fullNameValidator,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-
-                    _normalgap,
-                    // Email TextField with validation
-                    ShadowInputbox(
-                      labelText: 'Email',
-                      prefixIcon: Icons.email,
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: _emailValidator,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-                    _normalgap,
-
-                    // Phone TextField with validation
-                    ShadowInputbox(
-                      labelText: 'Phone Number',
-                      prefixIcon: Icons.phone,
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      validator: _phoneValidator,
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-                    _normalgap,
-
-                    // Password TextField with validation
-                    ShadowInputbox(
-                      labelText: 'Password',
-                      prefixIcon: Icons.lock,
-                      controller: _passwordController,
-                      obscureText: true,
-                      validator: _passwordValidator,
-                      onChanged: _onPasswordChanged,
-                    ),
-
-                    _smallgap,
-                    _normalgap,
-
-                    // Sign Up Button
-                    GestureDetector(
-                      onTap: () {
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, perform actions
-
-                          context.read<RegisterBloc>().add(RegisterUser(
-                              context: context,
-                              fullName: _fullNameController.text,
-                              userName: _usernameController.text,
-                              email: _emailController.text,
-                              phoneNo: _phoneController.text,
-                              password: _passwordController.text));
-                          // ScaffoldMessenger.of(context)
-                          //     .showSnackBar(const SnackBar(
-                          //   content: Text(
-                          //     'Account created sucessfully',
-                          //     style: TextStyle(color: Colors.white),
-                          //   ),
-                          //   backgroundColor: Colors.green,
-                          // ));
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: double.infinity,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 52, 74, 26),
-                          borderRadius: BorderRadius.circular(_cornerRadius),
-                        ),
-                        child: const Text(
-                          "Sign up",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 19,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                    _smallgap,
-
-                    // Already have an account section
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Already have an account?"),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BlocProvider.value(
-                                    value: getIt<LoginBloc>(),
-                                    child: LoginView(),
-                                  ),
-                                ));
-                          },
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 26, 28, 25),
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+      body: Stack(
+        children: [
+          // Background Gradient
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFFF2F3DA), // gradient: LinearGradient(
+                //   colors: [
+                //     Color.fromARGB(179, 224, 185, 47),
+                //     Color.fromARGB(255, 255, 255, 255),
+                //     Color.fromARGB(255, 255, 255, 179),
+                //     Color.fromARGB(255, 255, 255, 255)
+                //   ],
+                //   begin: Alignment.bottomLeft,
+                //   end: Alignment.topLeft,
+                // ),
               ),
             ),
           ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                          context: context,
+                          isScrollControlled: true,
+                          // shape: const RoundedRectangleBorder(
+                          //     // borderRadius: BorderRadius.vertical(
+                          //     //   top: Radius.circular(20),
+                          //     // ),
+                          //     ),
+                          builder: (innercontext) => Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: SizedBox(
+                              width: double.infinity, // Constrain the width
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisSize:
+                                    MainAxisSize.min, // Prevent infinite width
+                                children: [
+                                  Flexible(
+                                    // Add Flexible to buttons
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        checkCameraPermission();
+                                        _handleImageSelection(
+                                            context, ImageSource.camera);
+                                      },
+                                      icon: const Icon(Icons.camera),
+                                      label: const Text('Camera'),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    // Add Flexible to buttons
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        checkCameraPermission();
+                                        _handleImageSelection(
+                                            context, ImageSource.gallery);
+                                      },
+                                      icon: const Icon(Icons.image),
+                                      label: const Text('Gallery'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: SizedBox(
+                        width: 145, // Fixed width
+                        height: 145, // Fixed height
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 80,
+                          backgroundImage: _img != null
+                              ? FileImage(_img!)
+                              : const AssetImage('assets/images/logo.png')
+                                  as ImageProvider,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    "Create Account",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        // children: [
+                        //   TextSpan(text: "To\n"),
+                        //   TextSpan(
+                        //       text: "embark adventures & discover hidden gems"),
+                        // ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _key,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            buildTextField(
+                              controller: _fullnameController,
+                              labelText: 'First Name',
+                              icon: Icons.person,
+                              validator: (value) => value!.isEmpty
+                                  ? 'Please enter first name'
+                                  : null,
+                            ),
+                            _gap,
+                            buildTextField(
+                              controller: _phoneController,
+                              labelText: 'Phone Number',
+                              icon: Icons.phone,
+                              validator: (value) => value!.isEmpty
+                                  ? 'Please enter phone number'
+                                  : null,
+                            ),
+                            _gap,
+                            buildTextField(
+                              controller: _usernameController,
+                              labelText: 'Username',
+                              icon: Icons.account_circle,
+                              validator: (value) => value!.isEmpty
+                                  ? 'Please enter username'
+                                  : null,
+                            ),
+                            _gap,
+                            buildTextField(
+                              controller: _passwordController,
+                              labelText: 'Password',
+                              icon: Icons.lock,
+                              obscureText: true,
+                              validator: (value) => value!.isEmpty
+                                  ? 'Please enter password'
+                                  : null,
+                            ),
+                            _gap,
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _termsAccepted,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _termsAccepted = value ?? false;
+                                    });
+                                  },
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const TermsAndConditionsPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      "I agree to the Terms and Conditions",
+                                      style: TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 239, 155, 29),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (_key.currentState!.validate()) {
+                                  final RegisterState =
+                                      context.read<RegisterBloc>().state;
+                                  final imageName = RegisterState.imageName;
+                                  // if (imagePath == null) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(content: Text("Please select an image")),
+                                  //   );
+                                  //   return;
+                                  // }
+
+                                  context.read<RegisterBloc>().add(RegisterUser(
+                                        context: context,
+                                        full_Name: _fullnameController.text,
+                                        username: _usernameController.text,
+                                        image: imagePath ?? '',
+                                        phone: _phoneController.text,
+                                        password: _passwordController.text,
+                                      ));
+                                }
+                              },
+                              child: const Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/login');
+                              },
+                              child: const Text(
+                                'Already have an account? Sign In',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required IconData icon,
+    String? Function(String?)? validator,
+    bool obscureText = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: const Color.fromARGB(255, 182, 183, 182)),
+        labelText: labelText,
+        labelStyle: const TextStyle(
+          color: Color.fromARGB(255, 0, 0, 0),
+          fontWeight: FontWeight.bold,
+        ),
+        filled: true,
+        fillColor: const Color.fromARGB(21, 245, 245, 245).withOpacity(0.9),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
         ),
       ),
+      style: const TextStyle(color: Colors.black),
+      validator: validator,
     );
   }
 }

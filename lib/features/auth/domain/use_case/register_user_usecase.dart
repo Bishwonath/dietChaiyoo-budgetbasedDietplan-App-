@@ -1,3 +1,4 @@
+
 import 'package:dartz/dartz.dart';
 import 'package:diet_chaiyoo/app/usecase/usecase.dart';
 import 'package:diet_chaiyoo/core/error/failure.dart';
@@ -6,49 +7,49 @@ import 'package:diet_chaiyoo/features/auth/domain/repository/auth_repository.dar
 import 'package:equatable/equatable.dart';
 
 
-class RegisterUserParams extends Equatable{
-  final String fullName;
-  final String email;
+class RegisterUserParams extends Equatable {
+  final String full_name;
+  final String phone;
+  final String image;
   final String username;
-  final String phoneNo;
   final String password;
 
   const RegisterUserParams({
-    required this.fullName,
-    required this.email,
+    required this.full_name,
+    required this.phone,
+    required this.image,
     required this.username,
-    required this.phoneNo,
-    required this.password
+    required this.password,
   });
 
-
-   const RegisterUserParams.initial():
-  fullName= '',
-  email='',
-  username='',
-  phoneNo='',
-  password = '';
+  //intial constructor
+  const RegisterUserParams.initial({
+    required this.full_name,
+    required this.phone,
+    required this.image,
+    required this.username,
+    required this.password,
+  });
 
   @override
-  List<Object?> get props => [fullName,email,username,phoneNo,password];
-
+  List<Object?> get props =>
+      [full_name,  phone, image, username, password];
 }
 
-class RegisterUserUsecase implements UsecaseWithParams<void, RegisterUserParams> {
-  final IAuthRepository authRepository;
+class RegisterUseCase implements UsecaseWithParams<void, RegisterUserParams> {
+  final IAuthRepository repository;
 
-  RegisterUserUsecase({required this.authRepository});
+  RegisterUseCase(this.repository);
 
   @override
   Future<Either<Failure, void>> call(RegisterUserParams params) {
-    final authEntity =AuthEntity(
-      username: params.username, 
-      fullName: params.fullName, 
-      email: params.email, 
-      phoneNo: params.phoneNo,
-      password: params.password); 
-    
-    return authRepository.createUser(authEntity);
+    final authEntity = AuthEntity(
+      full_Name: params.full_name,
+      phone: params.phone,
+      image: params.image,
+      username: params.username,
+      password: params.password,
+    );
+    return repository.registerUser(authEntity);
   }
-
 }

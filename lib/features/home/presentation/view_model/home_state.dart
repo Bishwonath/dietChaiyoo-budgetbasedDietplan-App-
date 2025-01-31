@@ -1,7 +1,10 @@
+import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/about_us.dart';
 import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/dashboard_view.dart';
-import 'package:diet_chaiyoo/features/user_profile/presentation/view/profile_view.dart';
+import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/placers._view.dart';
+import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/user_profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -14,14 +17,13 @@ class HomeState extends Equatable {
 
   // Initial state
   static HomeState initial() {
-    return HomeState(
+    return const HomeState(
       selectedIndex: 0,
       views: [
-        const DashBoardView(),
-        // DiscoverView(),
-        // ForumView(),
-        const ProfileView(),
-
+        DashboardView(),
+        PlacersView(),
+        UserProfile(),
+        AboutUs(),
       ],
     );
   }
