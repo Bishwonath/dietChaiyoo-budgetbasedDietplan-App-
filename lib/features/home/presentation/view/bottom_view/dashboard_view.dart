@@ -8,25 +8,24 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF9C27B0), Color(0xFF2196F3)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   gradient: LinearGradient(
+      //     colors: [Color(0xFF9C27B0), Color(0xFF2196F3)],
+      //     begin: Alignment.topCenter,
+      //     end: Alignment.bottomCenter,
+      //   ),
+      // ),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -62,10 +61,10 @@ class _DashboardViewState extends State<DashboardView> {
                         // ),
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 5),
                     TextField(
                       decoration: InputDecoration(
-                        hintText: "Start searching here...",
+                        hintText: "Stay healthy within a Budget",
                         filled: true,
                         fillColor: Colors.white,
                         prefixIcon:
@@ -78,26 +77,26 @@ class _DashboardViewState extends State<DashboardView> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 5),
                     const Text(
-                      "Discover Places",
+                      "Discover Restaurants recommendations",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 5),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CategoryChip(label: "All", isSelected: true),
                         CategoryChip(label: "Restaurants"),
-                        CategoryChip(label: "Parks"),
-                        CategoryChip(label: "Entertainment"),
+                        CategoryChip(label: "Tips"),
+                        CategoryChip(label: "Budget"),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 5),
                   ],
                 ),
               ),
@@ -111,26 +110,23 @@ class _DashboardViewState extends State<DashboardView> {
                   mainAxisSpacing: 16,
                   children: const [
                     PlaceCard(
-                        image: 'assets/images/heritage.jpg',
-                        title: 'National Heritage'),
+                        image: 'assets/images/loseweight.png',
+                        title: 'Lose Weight'),
                     PlaceCard(
-                        image: 'assets/images/thrill.jpg',
-                        title: 'Feel the thrill'),
+                        image: 'assets/images/gainweight.png',
+                        title: 'Gain Weight'),
                     PlaceCard(
-                        image: 'assets/images/wildlife.jpg',
-                        title: 'Wildlife and Nature'),
+                        image: 'assets/images/stayhealthy.png',
+                        title: 'StayHealthy'),
                     PlaceCard(
-                        image: 'assets/images/trek.jpg',
-                        title: 'Trekking Adventures'),
+                        image: 'assets/images/Rs. 500.png',
+                        title: 'Pick your Budget'),
                     PlaceCard(
-                        image: 'assets/images/spiritual.jpg',
-                        title: 'Spiritual Retreats'),
+                        image: 'assets/images/Rs. 700.png',
+                        title: 'Gold Package'),
                     PlaceCard(
-                        image: 'assets/images/homestay.jpeg',
-                        title: 'Village Stay'),
-                    PlaceCard(
-                        image: 'assets/images/food.jpeg',
-                        title: 'Street Food Tour'),
+                        image: 'assets/images/Rs.1000.png',
+                        title: 'Titanium Budget package'),
                   ],
                 ),
               ),
@@ -141,8 +137,6 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 }
-
-
 
 class CategoryChip extends StatelessWidget {
   final String label;
@@ -159,7 +153,9 @@ class CategoryChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.orange : Colors.white,
+        color: isSelected
+            ? const Color.fromARGB(255, 245, 211, 160)
+            : Colors.white,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -185,63 +181,40 @@ class PlaceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.asset(
-            image,
-            height: double.infinity,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.6),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ClipRRect(
               borderRadius:
-                  const BorderRadius.vertical(bottom: Radius.circular(20)),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: const Text(
-                    'Book Now',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
+                  const BorderRadius.vertical(top: Radius.circular(10)),
+              child: Image.asset(
+                image,
+                width: double.infinity,
+                fit: BoxFit
+                    .cover, // Ensures the image covers the space without distortion
+              ),
             ),
           ),
-        ),
-      ],
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
+            ),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-

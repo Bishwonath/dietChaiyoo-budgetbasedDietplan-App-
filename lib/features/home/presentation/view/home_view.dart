@@ -5,7 +5,6 @@ import 'package:diet_chaiyoo/features/home/presentation/view_model/home_state.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -14,17 +13,11 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF9C27B0), Color(0xFF2196F3)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
+          color: Color(0xFFF2F3DA), // Use a legacy color directly here
         ),
         title: const Text(
-          'Hire  Your Guide',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          'Your Diet Planner',
+          style: TextStyle(color: Colors.black, fontSize: 20),
         ),
         centerTitle: true,
         actions: [
@@ -53,15 +46,15 @@ class HomeView extends StatelessWidget {
         builder: (context, state) {
           return CurvedNavigationBar(
             backgroundColor: Colors.white,
-            color: Colors.blueAccent,
+            color: const Color.fromARGB(255, 255, 255, 255),
             buttonBackgroundColor: Colors.white,
             height: 60,
-            animationDuration: const Duration(milliseconds: 300),
+            animationDuration: const Duration(milliseconds: 200),
             index: state.selectedIndex,
             items: const [
               Icon(Icons.home, size: 30, color: Colors.black),
-              Icon(Icons.place, size: 30, color: Colors.black),
-              Icon(Icons.rocket_launch_sharp, size: 30, color: Colors.black),
+              Icon(Icons.line_weight, size: 30, color: Colors.black),
+              Icon(Icons.wine_bar, size: 30, color: Colors.black),
               Icon(Icons.person, size: 30, color: Colors.black),
             ],
             onTap: (index) {
