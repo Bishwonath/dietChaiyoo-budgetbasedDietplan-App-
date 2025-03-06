@@ -1,4 +1,7 @@
+import 'package:diet_chaiyoo/features/home/presentation/view_model/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -8,165 +11,170 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  String healthGoal = 'Not set';
+  String dietaryPreference = 'Not set';
+  int age = 0;
+  double height = 0;
+  int weeklyBudget = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF9C27B0), Color(0xFF2196F3)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 0),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Text(
-                            //   "Hello John!",
-                            //   style: TextStyle(
-                            //     fontSize: 24,
-                            //     fontWeight: FontWeight.bold,
-                            //     color: Colors.white,
-                            //   ),
-                            // ),
-                            // SizedBox(height: 4),
-                            // Text(
-                            //   "Address Here",
-                            //   style: TextStyle(
-                            //     fontSize: 16,
-                            //     color: Colors.white70,
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                        // CircleAvatar(
-                        //   radius: 25,
-                        //   backgroundImage:
-                        //       AssetImage('assets/images/profile.jpg'),
-                        // ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: "Start searching here...",
-                        filled: true,
-                        fillColor: Colors.white,
-                        prefixIcon:
-                            const Icon(Icons.search, color: Colors.grey),
-                        suffixIcon: const Icon(Icons.filter_alt_outlined,
-                            color: Colors.grey),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    const Text(
-                      "Discover Places",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CategoryChip(label: "All", isSelected: true),
-                        CategoryChip(label: "Restaurants"),
-                        CategoryChip(label: "Parks"),
-                        CategoryChip(label: "Entertainment"),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  children: const [
-                    PlaceCard(
-                        image: 'assets/images/heritage.jpg',
-                        title: 'National Heritage'),
-                    PlaceCard(
-                        image: 'assets/images/thrill.jpg',
-                        title: 'Feel the thrill'),
-                    PlaceCard(
-                        image: 'assets/images/wildlife.jpg',
-                        title: 'Wildlife and Nature'),
-                    PlaceCard(
-                        image: 'assets/images/trek.jpg',
-                        title: 'Trekking Adventures'),
-                    PlaceCard(
-                        image: 'assets/images/spiritual.jpg',
-                        title: 'Spiritual Retreats'),
-                    PlaceCard(
-                        image: 'assets/images/homestay.jpeg',
-                        title: 'Village Stay'),
-                    PlaceCard(
-                        image: 'assets/images/food.jpeg',
-                        title: 'Street Food Tour'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  // Load preferences
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      healthGoal = prefs.getString('healthGoal') ?? 'Not set';
+      dietaryPreference = prefs.getString('dietaryPreference') ?? 'Not set';
+      age = prefs.getInt('age') ?? 0;
+      weeklyBudget = prefs.getInt('weeklyBudget') ?? 0;
+      height = prefs.getDouble('height') ?? 0;
+    });
   }
-}
 
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
 
-
-class CategoryChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-
-  const CategoryChip({
-    super.key,
-    required this.label,
-    this.isSelected = false,
-  });
+  // Navigation logic based on title
+  void _navigateBasedOnSelection(String title) {
+    if (title == 'Health Goal: Not set' ||
+        title.contains('Stay') ||
+        title.contains('Lose') ||
+        title.contains('Goal')) {
+      // Navigate to the community view (index 1 is Community)
+      context.read<HomeCubit>().onTabTapped(1); // Community view index
+    } else if (title.contains('Diet')) {
+      // Navigate to the restaurant recommendation view (index 2 is Restaurant)
+      context.read<HomeCubit>().onTabTapped(2); // Restaurant view index
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: isSelected ? Colors.orange : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.black,
-          fontWeight: FontWeight.bold,
+    String imageAsset = '';
+    String title = '';
+
+    // You can adjust the logic here based on your actual health goal
+    if (healthGoal == 'Lose Weight') {
+      imageAsset = 'assets/images/loseweight.png';
+      title = 'Weight Loss Goal';
+    } else if (healthGoal == 'Gain Muscle') {
+      imageAsset = 'assets/images/gainweight.png';
+      title = 'Muscle Gain Goal';
+    } else if (healthGoal == 'Stay Healthy') {
+      imageAsset = 'assets/images/stayhealthy.png';
+      title = 'Stay Healthy & Fit';
+    } else {
+      imageAsset =
+          'assets/images/default_goal.jpg'; // Default image if health goal is not set
+      title = 'Health Goal: Not set';
+    }
+    String dietBudgetImage = '';
+    String dietBudgetTitle = '';
+
+    if (dietaryPreference == 'Vegetarian') {
+      dietBudgetImage = 'assets/images/onboarding1.png';
+      dietBudgetTitle = 'Vegetarian Diet';
+    } else if (dietaryPreference == 'Non-Vegetarian') {
+      dietBudgetImage = 'assets/images/onboarding2.png';
+      dietBudgetTitle = 'Non-Vegetarian Diet';
+    } else if (dietaryPreference == 'Vegan') {
+      dietBudgetImage = 'assets/images/onboarding3.png';
+      dietBudgetTitle = 'Vegan Diet';
+    }
+
+    // Adjust the image based on the weekly budget (100 to 5000)
+    if (weeklyBudget >= 100 && weeklyBudget <= 1000) {
+      dietBudgetImage =
+          'assets/images/onboarding1.png'; // Low budget (100 - 1000)
+      dietBudgetTitle += ' (Low Budget)';
+    } else if (weeklyBudget > 1000 && weeklyBudget <= 3000) {
+      dietBudgetImage =
+          'assets/images/onboarding2.png'; // Medium budget (1001 - 3000)
+      dietBudgetTitle += ' (Medium Budget)';
+    } else if (weeklyBudget > 3000 && weeklyBudget <= 5000) {
+      dietBudgetImage =
+          'assets/images/onboarding3.png'; // High budget (3001 - 5000)
+      dietBudgetTitle += ' (High Budget)';
+    }
+
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Image.asset(
+                          'assets/images/logo.png', // Replace with your logo asset path
+                          height: 100, // Adjust the size as needed
+                          width: 100, // Adjust the size as needed
+                          fit: BoxFit
+                              .contain, // Maintain aspect ratio of the logo
+                        ),
+                      ),
+                      const SizedBox(height: 0),
+                      // Highlighted text with the label
+                      Container(
+                        width: double
+                            .infinity, // Make the container span the full width
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0), // Add padding for spacing
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 189, 220,
+                              117), // Set the label background color to #CBE198
+                          // Optional: Rounded corners
+                        ),
+                        child: const Text(
+                          "Best Way to Learn About Diets",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white, // Text color should be white
+                          ),
+                          textAlign: TextAlign
+                              .center, // Move textAlign here to the Text widget
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 1,
+                    crossAxisSpacing: 10, // Adjust spacing between columns
+                    mainAxisSpacing: 10, // Adjust spacing between rows
+                    children: [
+                      PlaceCard(
+                        image: imageAsset,
+                        title: title,
+                        onButtonPressed: () => _navigateBasedOnSelection(title),
+                      ), // Pass the callback
+                      PlaceCard(
+                        image: dietBudgetImage,
+                        title: dietBudgetTitle,
+                        onButtonPressed: () =>
+                            _navigateBasedOnSelection(dietBudgetTitle),
+                      ), // Pass the callback
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20), // Space between content
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -176,11 +184,12 @@ class CategoryChip extends StatelessWidget {
 class PlaceCard extends StatelessWidget {
   final String image;
   final String title;
-
+  final VoidCallback onButtonPressed;
   const PlaceCard({
     super.key,
     required this.image,
     required this.title,
+    required this.onButtonPressed, // Initialize the callback
   });
 
   @override
@@ -193,7 +202,7 @@ class PlaceCard extends StatelessWidget {
             image,
             height: double.infinity,
             width: double.infinity,
-            fit: BoxFit.cover,
+            fit: BoxFit.scaleDown, // Ensures the image covers the container
           ),
         ),
         Positioned(
@@ -219,15 +228,15 @@ class PlaceCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onButtonPressed,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: const Color.fromARGB(103, 255, 255, 255),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   child: const Text(
-                    'Book Now',
+                    'Get the Best Recommendation',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -242,6 +251,3 @@ class PlaceCard extends StatelessWidget {
     );
   }
 }
-
-
-

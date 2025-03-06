@@ -6,7 +6,15 @@ class ApiEndpoints {
   static const String baseUrl = "http://10.0.2.2:3000/api";
 
   //=====================Auth Routes===============================
-  static  String registerUser = "/auth/register";
-  static  String loginUser = "/auth/login";
-  static  String uploadImage = "/user/uploadimage";
+  static String registerUser = "/auth/register";
+  static String loginUser = "/auth/login";
+  static String uploadImage = "/user/uploadimage";
+
+  static getUserPreferences(userId) {}
+
+  static createUserPreferences() {}
+
+  static updateUserPreferences(userId) {}
+
+  static deleteUserPreferences(userId) {}
 }

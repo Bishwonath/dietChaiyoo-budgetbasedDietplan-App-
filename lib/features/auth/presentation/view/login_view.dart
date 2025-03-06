@@ -1,5 +1,6 @@
 import 'package:diet_chaiyoo/features/auth/presentation/view/register_view.dart';
 import 'package:diet_chaiyoo/features/auth/presentation/view_model/login/login_bloc.dart';
+import 'package:diet_chaiyoo/features/personalisation/presentation/view/user_preference_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
@@ -180,23 +181,7 @@ class _LoginViewState extends State<LoginView> {
                                 }),
                               ),
                               const SizedBox(height: 1),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: TextButton(
-                                  onPressed: () {
-                                    // Add Forgot Password Logic Here
-                                  },
-                                  child: const Text(
-                                    'Forgot Password?',
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 64, 64, 64),
-                                      fontSize: 12,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                           
                             ],
                           );
                         },

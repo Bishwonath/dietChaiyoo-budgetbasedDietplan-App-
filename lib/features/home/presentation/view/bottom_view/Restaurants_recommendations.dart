@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantsRecommendations extends StatefulWidget {
   const RestaurantsRecommendations({super.key});
@@ -139,13 +138,13 @@ class _RestaurantsRecommendationsState
   }
 
   // Method to launch the URL
-  Future<void> _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // Future<void> _launchURL(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   // Show the modal bottom sheet with restaurant details
   void _showRestaurantDetails(Map<String, String> restaurant) {
@@ -240,7 +239,7 @@ class _RestaurantsRecommendationsState
               // Button to visit the website
               ElevatedButton(
                 onPressed: () {
-                  _launchURL(restaurant['url']!);
+                  // _launchURL(restaurant['url']!);
                 },
                 child: const Text('Visit Website'),
                 style: ElevatedButton.styleFrom(

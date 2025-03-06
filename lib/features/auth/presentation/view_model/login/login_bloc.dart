@@ -1,9 +1,10 @@
-
+import 'package:diet_chaiyoo/app/di/di.dart';
 import 'package:diet_chaiyoo/core/app_theme/common/snackbar/my_snackbar.dart';
 import 'package:diet_chaiyoo/features/auth/domain/use_case/login_user_usecase.dart';
 import 'package:diet_chaiyoo/features/auth/presentation/view_model/signup/register_bloc.dart';
-import 'package:diet_chaiyoo/features/home/presentation/view/home_view.dart';
 import 'package:diet_chaiyoo/features/home/presentation/view_model/home_cubit.dart';
+import 'package:diet_chaiyoo/features/personalisation/presentation/view/user_preference_view.dart';
+import 'package:diet_chaiyoo/features/personalisation/presentation/view_model/user_preference_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,26 +36,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
 
-      result.fold(
-        (failure) {
-          emit(state.copyWith(isLoading: false, isSuccess: false));
-          showMySnackBar(
+      result.fold((failure) {
+        emit(state.copyWith(isLoading: false, isSuccess: false));
+        showMySnackBar(
+          context: event.context,
+          message: failure.message ?? "Login failed",
+          color: Colors.red,
+        );
+      }, (token) {
+        emit(state.copyWith(isLoading: false, isSuccess: true));
+        add(
+          NavigateUserPreferencesPageEvent(
             context: event.context,
-            message: failure.message ?? "Login failed",
-            color: Colors.red,
-          );
-        },
-        (token) {
-            emit(state.copyWith(isLoading: false, isSuccess: true));
-            add(
-              NavigateHomeScreenEvent(
-                context: event.context,
-                destination: const HomeView(),
-              ),
-            );
-          } 
-      
-      );
+            userId: token, // Pass the necessary user data (userId)
+          ),
+        );
+      });
     });
 
     on<NavigateHomeScreenEvent>((event, emit) {
@@ -74,6 +71,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               child: event.destination,
             ),
           ));
+    });
+    // Handle the new event to navigate to UserPreferencesPage
+    on<NavigateUserPreferencesPageEvent>((event, emit) {
+      Navigator.pushReplacement(
+        event.context,
+        MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => getIt<UserPreferencesBloc>(),
+            child: UserPreferencesPage(userId: event.userId),
+          ),
+        ),
+      );
     });
   }
 }

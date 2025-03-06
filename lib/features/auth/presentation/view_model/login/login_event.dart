@@ -27,6 +27,16 @@ class NavigateHomeScreenEvent extends LoginEvent {
   });
 }
 
+class NavigateUserPreferencesPageEvent extends LoginEvent {
+  final BuildContext context;
+  final String userId; // Add any other necessary data here, like userId
+
+  const NavigateUserPreferencesPageEvent({
+    required this.context,
+    required this.userId, // Ensure the user ID is passed to navigate
+  });
+}
+
 class LoginUserEvent extends LoginEvent {
   final BuildContext context;
   final String username;

@@ -208,18 +208,17 @@ class _UserPreferencesPageState extends State<UserPreferencesPage> {
     );
   }
 
+  // Age, Weight, and Height Card
   Widget _buildAgeWeightHeightCard() {
     return Container(
       color: Color(0xFFF2F3DA), // Set background color for the card
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Add image at the top of the card
           Image.asset('assets/images/stayhealthy.png', width: double.infinity),
           SizedBox(height: 16),
-
-          // Use MediaQuery to make the form fields more responsive
           // Age Field
           TextFormField(
             initialValue: age.toString(),
@@ -232,12 +231,9 @@ class _UserPreferencesPageState extends State<UserPreferencesPage> {
             decoration: InputDecoration(
               labelText: 'Age',
               border: OutlineInputBorder(),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             ),
           ),
-          SizedBox(height: 16),
-
+          const SizedBox(height: 16),
           // Weight Field
           TextFormField(
             initialValue: weight.toString(),
@@ -250,12 +246,9 @@ class _UserPreferencesPageState extends State<UserPreferencesPage> {
             decoration: InputDecoration(
               labelText: 'Weight (kg)',
               border: OutlineInputBorder(),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             ),
           ),
-          SizedBox(height: 16),
-
+          const SizedBox(height: 16),
           // Height Field
           TextFormField(
             initialValue: height.toString(),
@@ -268,39 +261,9 @@ class _UserPreferencesPageState extends State<UserPreferencesPage> {
             decoration: InputDecoration(
               labelText: 'Height (cm)',
               border: OutlineInputBorder(),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             ),
           ),
-          SizedBox(height: 16),
-
-          // Responsively adjust the font size or padding based on the screen size
-          Builder(
-            builder: (context) {
-              double width = MediaQuery.of(context).size.width;
-
-              // Check if screen is small (like mobile) and adjust layout
-              return Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal:
-                          width * 0.05, // Adjust padding based on screen width
-                    ),
-                    child: Text(
-                      'Make sure all fields are correct before proceeding!',
-                      style: TextStyle(
-                        fontSize: width < 400
-                            ? 12
-                            : 16, // Adjust font size for smaller screens
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                ],
-              );
-            },
-          ),
+          const SizedBox(height: 16),
         ],
       ),
     );

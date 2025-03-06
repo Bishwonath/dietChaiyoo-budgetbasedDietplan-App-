@@ -1,10 +1,9 @@
-import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/about_us.dart';
+import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/Community_tips.dart';
+import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/Profile_view.dart';
+import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/Restaurants_recommendations.dart';
 import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/dashboard_view.dart';
-import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/placers._view.dart';
-import 'package:diet_chaiyoo/features/home/presentation/view/bottom_view/user_profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -21,9 +20,9 @@ class HomeState extends Equatable {
       selectedIndex: 0,
       views: [
         DashboardView(),
-        PlacersView(),
-        UserProfile(),
-        AboutUs(),
+        Community(),
+        RestaurantsRecommendations(),
+        Profile(),
       ],
     );
   }

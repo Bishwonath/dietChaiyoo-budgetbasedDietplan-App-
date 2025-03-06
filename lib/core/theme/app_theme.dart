@@ -1,4 +1,3 @@
-import 'package:diet_chaiyoo/app/constants/theme_constant.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -6,13 +5,13 @@ class AppTheme {
 
   static getApplicationTheme({required bool isDarkMode}) {
     return ThemeData(
-      // change the theme according to the user preference
+      // Change theme colors based on user preference
       colorScheme: isDarkMode
           ? const ColorScheme.dark(
-              primary: ThemeConstant.darkPrimaryColor,
+              primary: Color(0xFFB5A28E), // Brownish-gray
             )
           : const ColorScheme.light(
-              primary: Color.fromARGB(255, 17, 119, 20),
+              primary: Color(0xFFDCE3CD), // Light greenish-beige
             ),
       brightness: isDarkMode ? Brightness.dark : Brightness.light,
       fontFamily: 'Montserrat',
@@ -21,10 +20,10 @@ class AppTheme {
       // Change app bar color
       appBarTheme: const AppBarTheme(
         elevation: 0,
-        backgroundColor: ThemeConstant.appBarColor,
+        backgroundColor: Color(0xFFF6F5E4), // Off-white
         centerTitle: true,
         titleTextStyle: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 20,
         ),
       ),
@@ -34,7 +33,7 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           foregroundColor: Colors.white,
-          backgroundColor: const Color.fromARGB(255, 73, 12, 153),
+          backgroundColor: const Color(0xFFD97732), // Orange-brown
           textStyle: const TextStyle(
             fontSize: 20,
           ),
@@ -58,19 +57,19 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: ThemeConstant.primaryColor,
+            color: Color(0xFFDCE3CD), // Light greenish-beige
           ),
         ),
       ),
       // Circular progress bar theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: ThemeConstant.primaryColor,
+        color: Color(0xFFDCE3CD), // Light greenish-beige
       ),
-      //Bottom navigation bar theme
+      // Bottom navigation bar theme
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Colors.lightGreen,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.black,
+        backgroundColor: Color(0xFFF6F5E4), // Off-white
+        selectedItemColor: Color(0xFFD97732), // Orange-brown
+        unselectedItemColor: Color(0xFFB5A28E), // Brownish-gray
         type: BottomNavigationBarType.fixed,
         elevation: 0,
       ),
