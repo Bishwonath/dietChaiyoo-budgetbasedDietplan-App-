@@ -89,8 +89,7 @@ class _DashboardViewState extends State<DashboardView> {
           'assets/images/onboarding1.png'; // Low budget (100 - 1000)
       dietBudgetTitle += ' (Low Budget)';
     } else if (weeklyBudget > 1000 && weeklyBudget <= 3000) {
-      dietBudgetImage =
-          'assets/images/onboarding2.png'; // Medium budget (1001 - 3000)
+      dietBudgetImage = 'assets/images/11.jpg'; // Medium budget (1001 - 3000)
       dietBudgetTitle += ' (Medium Budget)';
     } else if (weeklyBudget > 3000 && weeklyBudget <= 5000) {
       dietBudgetImage =
@@ -113,7 +112,7 @@ class _DashboardViewState extends State<DashboardView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Align(
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.center,
                         child: Image.asset(
                           'assets/images/logo.png', // Replace with your logo asset path
                           height: 100, // Adjust the size as needed
@@ -128,14 +127,14 @@ class _DashboardViewState extends State<DashboardView> {
                         width: double
                             .infinity, // Make the container span the full width
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8.0), // Add padding for spacing
+                            vertical: 10.0), // Add padding for spacing
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 189, 220,
                               117), // Set the label background color to #CBE198
                           // Optional: Rounded corners
                         ),
                         child: const Text(
-                          "Best Way to Learn About Diets",
+                          "Best Way to Learn About Diets ",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -157,6 +156,7 @@ class _DashboardViewState extends State<DashboardView> {
                     crossAxisSpacing: 10, // Adjust spacing between columns
                     mainAxisSpacing: 10, // Adjust spacing between rows
                     children: [
+                      
                       PlaceCard(
                         image: imageAsset,
                         title: title,
@@ -167,7 +167,8 @@ class _DashboardViewState extends State<DashboardView> {
                         title: dietBudgetTitle,
                         onButtonPressed: () =>
                             _navigateBasedOnSelection(dietBudgetTitle),
-                      ), // Pass the callback
+                      ),
+                      
                     ],
                   ),
                 ),

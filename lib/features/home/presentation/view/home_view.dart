@@ -23,6 +23,7 @@ class HomeView extends StatelessWidget {
           return CurvedNavigationBar(
             color: Color(0xFFDCE3CD),
             buttonBackgroundColor: Colors.white,
+            backgroundColor: Colors.white,
             height: 60,
             animationDuration: const Duration(milliseconds: 300),
             index: state.selectedIndex,
