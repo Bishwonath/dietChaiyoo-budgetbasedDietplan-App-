@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:diet_chaiyoo/core/app_theme/common/snackbar/my_snackbar.dart';
 import 'package:diet_chaiyoo/features/auth/domain/use_case/register_user_usecase.dart';
@@ -6,19 +5,16 @@ import 'package:diet_chaiyoo/features/auth/domain/use_case/upload_image_usecase.
 import 'package:diet_chaiyoo/features/auth/presentation/view_model/signup/register_event.dart';
 import 'package:equatable/equatable.dart';
 
-
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterUseCase _registerUseCase;
   final UploadImageUsecase _uploadImageUsecase;
 
-
   RegisterBloc({
     required RegisterUseCase registerUseCase,
     required UploadImageUsecase uploadImageUsecase,
-  })  :
-        _registerUseCase = registerUseCase,
+  })  : _registerUseCase = registerUseCase,
         _uploadImageUsecase = uploadImageUsecase,
         super(RegisterState.initial()) {
     on<LoadCoursesAndBatches>(_onLoadCoursesAndBatches);
@@ -36,17 +32,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(isLoading: false, isSuccess: true));
   }
 
-void _onUploadImageEvent(
-  UploadImageEvent event,
-  Emitter<RegisterState> emit,
-  )async{
+  void _onUploadImageEvent(
+    UploadImageEvent event,
+    Emitter<RegisterState> emit,
+  ) async {
     emit(state.copyWith(isLoading: true));
 
     final result = await _uploadImageUsecase.call(
       UploadImageParams(image: event.img),
-      );    
+    );
 
-      result.fold(
+    result.fold(
       (l) => emit(state.copyWith(isLoading: false, isSuccess: false)),
       (r) {
         emit(state.copyWith(isLoading: false, isSuccess: true));
@@ -54,7 +50,6 @@ void _onUploadImageEvent(
             context: event.context, message: "image upload Successful");
       },
     );
-
   }
 
   void _onRegisterEvent(
@@ -67,8 +62,8 @@ void _onUploadImageEvent(
       full_name: event.full_Name,
       phone: event.phone,
       username: event.username,
-      password: event.password, 
-      image:event.image,
+      password: event.password,
+      image: event.image,
     ));
 
     result.fold(

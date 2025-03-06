@@ -6,6 +6,7 @@ part of 'get_user_preferences_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+// ignore: unused_element
 GetUserPreferencesDTO _$GetUserPreferencesDTOFromJson(
         Map<String, dynamic> json) =>
     GetUserPreferencesDTO(
